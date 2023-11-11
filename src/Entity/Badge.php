@@ -2,66 +2,37 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Badge
- *
- * @ORM\Table(name="badge", indexes={@ORM\Index(name="idrestau", columns={"id_restau"}), @ORM\Index(name="iduser", columns={"iduser"})})
- * @ORM\Entity
- */
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BadgeRepository;
+use Doctrine\DBAL\Types\Types;
+
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
 class Badge
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="commantaire", type="string", length=2000, nullable=false)
-     */
-    private $commantaire;
+    #[ORM\Column(length: 255)]
+    private ?string $commantaire = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateBadge", type="date", nullable=false)
-     */
-    private $datebadge;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $datebadge = null;  
+    
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeBadge", type="string", length=0, nullable=false)
-     */
-    private $typebadge;
+    #[ORM\Column(length: 255)]
+    private ?string $typebadge = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
-     * })
-     */
-    private $iduser;
 
-    /**
-     * @var \Restaurant
-     *
-     * @ORM\ManyToOne(targetEntity="Restaurant")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_restau", referencedColumnName="id_restau")
-     * })
-     */
-    private $idRestau;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;
+
+    #[ORM\ManyToOne(inversedBy: 'avis')]
+    #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
+    private ?Restaurant $restaurant = null;
 
     public function getId(): ?int
     {
@@ -104,29 +75,31 @@ class Badge
         return $this;
     }
 
-    public function getIduser(): ?User
+    public function getUser(): ?User
     {
-        return $this->iduser;
+        return $this->user;
     }
 
-    public function setIduser(?User $iduser): static
+    public function setUser(?User $user): static
     {
-        $this->iduser = $iduser;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getIdRestau(): ?Restaurant
+    public function getRestaurant(): ?Restaurant
     {
-        return $this->idRestau;
+        return $this->restaurant;
     }
 
-    public function setIdRestau(?Restaurant $idRestau): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
-        $this->idRestau = $idRestau;
+        $this->restaurant = $restaurant;
 
         return $this;
     }
+
+
 
 
 }

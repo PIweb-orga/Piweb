@@ -1,60 +1,35 @@
 <?php
 
 namespace App\Entity;
+use App\Repository\PlatRepository;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Plat
- *
- * @ORM\Table(name="plat")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: PlatRepository::class)]
+
 class Plat
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idplat", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idplat;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idplat = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=30, nullable=false)
-     */
-    private $nom;
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+    
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=300, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=300, nullable=false)
-     */
-    private $image;
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $prix;
+    #[ORM\Column]
+    private ?float $prix = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="categorie", type="string", length=0, nullable=false)
-     */
-    private $categorie;
+    #[ORM\Column(length: 255)]
+    private ?string $categorie = null;
+
 
     public function getIdplat(): ?int
     {

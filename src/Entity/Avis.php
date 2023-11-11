@@ -1,67 +1,41 @@
 <?php
 
-namespace App\Entity;
 
+
+namespace App\Entity;
+use App\Repository\AvisRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Avis
- *
- * @ORM\Table(name="avis", indexes={@ORM\Index(name="iduser", columns={"iduser"}), @ORM\Index(name="id_resto", columns={"id_restau"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $pubavis = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pubAvis", type="string", length=2000, nullable=false)
-     */
-    private $pubavis;
+    #[ORM\Column(length: 255)]
+    private ?string $titreavis = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titreAvis", type="string", length=30, nullable=false)
-     */
-    private $titreavis;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dateAvis", type="string", length=20, nullable=false)
-     */
-    private $dateavis;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateavis = null;   
+    
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
-     * })
-     */
-    private $iduser;
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;
 
-    /**
-     * @var \Restaurant
-     *
-     * @ORM\ManyToOne(targetEntity="Restaurant")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_restau", referencedColumnName="id_restau")
-     * })
-     */
-    private $idRestau;
+    #[ORM\ManyToOne(inversedBy: 'avis')]
+    #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
+    private ?Restaurant $restaurant = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -91,38 +65,42 @@ class Avis
         return $this;
     }
 
-    public function getDateavis(): ?string
+  
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDateavis(): ?\DateTimeInterface
     {
         return $this->dateavis;
     }
 
-    public function setDateavis(string $dateavis): static
+    public function setDateavis(\DateTimeInterface $dateavis): static
     {
         $this->dateavis = $dateavis;
 
         return $this;
     }
 
-    public function getIduser(): ?User
+   
+
+    public function getRestaurant(): ?Restaurant
     {
-        return $this->iduser;
+        return $this->restaurant;
     }
 
-    public function setIduser(?User $iduser): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
-        $this->iduser = $iduser;
-
-        return $this;
-    }
-
-    public function getIdRestau(): ?Restaurant
-    {
-        return $this->idRestau;
-    }
-
-    public function setIdRestau(?Restaurant $idRestau): static
-    {
-        $this->idRestau = $idRestau;
+        $this->restaurant = $restaurant;
 
         return $this;
     }

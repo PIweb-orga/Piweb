@@ -1,60 +1,42 @@
 <?php
 
 namespace App\Entity;
-
-use Doctrine\DBAL\Types\Types;
+use App\Repository\ParticipantRepository;
+use App\Entity\Evennement;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Participant
- *
- * @ORM\Table(name="participant", indexes={@ORM\Index(name="fk_event", columns={"idevent"}), @ORM\Index(name="fk_user", columns={"iduser"})})
- * @ORM\Entity
- */
+use Doctrine\DBAL\Types\Types;
+
+#[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+
 class Participant
 {
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="datepar", type="date", nullable=false)
-     */
-    private $datepar;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private  ?int  $idparticipant = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $datepar = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="numero", type="integer", nullable=false)
-     */
-    private $numero;
+    #[ORM\Column]
+    private ?int $numero = null;
+  
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idParticipant", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idparticipant;
+       
+    #[ORM\OneToOne(targetEntity: Evennement::class)]
+    #[ORM\JoinColumn(name: 'idevent', referencedColumnName: 'idevent')]
+    private ?Evennement $event = null;
 
-    /**
-     * @var \Evennement
-     *
-     * @ORM\ManyToOne(targetEntity="Evennement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idevent", referencedColumnName="idevent")
-     * })
-     */
-    private $idevent;
+   
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
-     * })
-     */
-    private $iduser;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null; 
+
+    public function getIdparticipant(): ?int
+    {
+        return $this->idparticipant;
+    }
 
     public function getDatepar(): ?\DateTimeInterface
     {
@@ -80,34 +62,28 @@ class Participant
         return $this;
     }
 
-    public function getIdparticipant(): ?int
+    public function getEvent(): ?Evennement
     {
-        return $this->idparticipant;
+        return $this->event;
     }
 
-    public function getIdevent(): ?Evennement
+    public function setEvent(?Evennement $event): static
     {
-        return $this->idevent;
-    }
-
-    public function setIdevent(?Evennement $idevent): static
-    {
-        $this->idevent = $idevent;
+        $this->event = $event;
 
         return $this;
     }
 
-    public function getIduser(): ?User
+    public function getUser(): ?User
     {
-        return $this->iduser;
+        return $this->user;
     }
 
-    public function setIduser(?User $iduser): static
+    public function setUser(?User $user): static
     {
-        $this->iduser = $iduser;
+        $this->user = $user;
 
         return $this;
     }
-
 
 }

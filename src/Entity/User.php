@@ -1,81 +1,41 @@
 <?php
 
 namespace App\Entity;
+use App\Repository\UserRepository;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="iduser", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $iduser;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $iduser = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=30, nullable=false)
-     */
-    private $username;
+    #[ORM\Column(length: 30)]
+    private ?string $username = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=300, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(length: 300)]
+    private ?string $email = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=300, nullable=false)
-     */
-    private $password;
+    #[ORM\Column(length: 300)]
+    private ?string $password = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstName", type="string", length=30, nullable=false)
-     */
-    private $firstname;
+    #[ORM\Column(length: 30)]
+    private ?string $firstname = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastName", type="string", length=30, nullable=false)
-     */
-    private $lastname;
+    #[ORM\Column(length: 30)]
+    private ?string $lastname = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="tel", type="string", length=20, nullable=true)
-     */
-    private $tel;
+    #[ORM\Column(nullable: true, length: 20)]
+    private ?string $tel = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="address", type="string", length=300, nullable=true)
-     */
-    private $address;
+    #[ORM\Column(nullable: true, length: 300)]
+    private ?string $address = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=0, nullable=false)
-     */
-    private $role;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $role = null;
 
     public function getIduser(): ?int
     {
@@ -177,6 +137,4 @@ class User
 
         return $this;
     }
-
-
 }

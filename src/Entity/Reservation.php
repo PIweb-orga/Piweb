@@ -1,60 +1,36 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
+
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Reservation
- *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="reservattion_ibfk_1", columns={"id_restau"}), @ORM\Index(name="id_user", columns={"id_user"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+
 class Reservation
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_res", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idRes;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idRes = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="datereser", type="date", nullable=false)
-     */
-    private $datereser;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $datereser = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="timereser", type="time", nullable=false)
-     */
-    private $timereser;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="iduser")
-     * })
-     */
-    private $idUser;
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $timereser = null;
+   
 
-    /**
-     * @var \Restaurant
-     *
-     * @ORM\ManyToOne(targetEntity="Restaurant")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_restau", referencedColumnName="id_restau")
-     * })
-     */
-    private $idRestau;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;    
+   
+
+    #[ORM\OneToOne(targetEntity: Restaurant::class)]
+    #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
+    private ?Restaurant $restaurant=null;
 
     public function getIdRes(): ?int
     {
@@ -85,26 +61,26 @@ class Reservation
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->idUser;
+        return $this->user;
     }
 
-    public function setIdUser(?User $idUser): static
+    public function setUser(?User $user): static
     {
-        $this->idUser = $idUser;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getIdRestau(): ?Restaurant
+    public function getRestaurant(): ?Restaurant
     {
-        return $this->idRestau;
+        return $this->restaurant;
     }
 
-    public function setIdRestau(?Restaurant $idRestau): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
-        $this->idRestau = $idRestau;
+        $this->restaurant = $restaurant;
 
         return $this;
     }

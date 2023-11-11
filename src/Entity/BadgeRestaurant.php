@@ -41,34 +41,5 @@ class BadgeRestaurant
      */
     private $idbadge;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getIdRestau(): ?Restaurant
-    {
-        return $this->idRestau;
-    }
-
-    public function setIdRestau(?Restaurant $idRestau): static
-    {
-        $this->idRestau = $idRestau;
-
-        return $this;
-    }
-
-    public function getIdbadge(): ?Badge
-    {
-        return $this->idbadge;
-    }
-
-    public function setIdbadge(?Badge $idbadge): static
-    {
-        $this->idbadge = $idbadge;
-
-        return $this;
-    }
-
 
 }

@@ -1,68 +1,39 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\EvennementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Evennement
- *
- * @ORM\Table(name="evennement")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: EvennementRepository::class)]
+
 class Evennement
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idevent", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idevent;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idevent = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255, nullable=false)
-     */
-    private $titre;
+    #[ORM\Column(length: 255)]
+    private ?string $titre = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
-    private $description;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
-     */
-    private $date;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="img", type="string", length=255, nullable=false)
-     */
-    private $img;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lieu", type="string", length=255, nullable=false)
-     */
-    private $lieu;
+    #[ORM\Column(length: 255)]
+    private ?string $img = null;    
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=255, nullable=false)
-     */
-    private $adresse;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $lieu = null;    
+
+    #[ORM\Column(length: 255)]
+    private ?string $adresse = null;
 
     public function getIdevent(): ?int
     {
@@ -139,7 +110,7 @@ class Evennement
         $this->adresse = $adresse;
 
         return $this;
-    }
+    }   
 
 
 }

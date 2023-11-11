@@ -1,73 +1,38 @@
 <?php
-
 namespace App\Entity;
-
+use App\Repository\AchatRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Achat
- *
- * @ORM\Table(name="achat", indexes={@ORM\Index(name="fk_plt", columns={"idplat"}), @ORM\Index(name="fk_usr", columns={"iduser"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: AchatRepository::class)]
+
 class Achat
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idachat", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idachat;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idachat = null;
+   
+    #[ORM\Column]
+    private ?float $montanttotal = null;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="montanttotal", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $montanttotal;
+    #[ORM\Column]
+    private ?int $quantite = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="quantite", type="integer", nullable=false)
-     */
-    private $quantite;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
-     */
-    private $date;
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=0, nullable=false)
-     */
-    private $type;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;    
+    
+    #[ORM\OneToOne(targetEntity: Plat::class)]
+    #[ORM\JoinColumn(name: 'idplat', referencedColumnName: 'idplat')]
+    private ?Plat $plat=null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
-     * })
-     */
-    private $iduser;
-
-    /**
-     * @var \Plat
-     *
-     * @ORM\ManyToOne(targetEntity="Plat")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idplat", referencedColumnName="idplat")
-     * })
-     */
     private $idplat;
 
     public function getIdachat(): ?int
@@ -143,6 +108,30 @@ class Achat
     public function setIdplat(?Plat $idplat): static
     {
         $this->idplat = $idplat;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPlat(): ?Plat
+    {
+        return $this->plat;
+    }
+
+    public function setPlat(?Plat $plat): static
+    {
+        $this->plat = $plat;
 
         return $this;
     }
