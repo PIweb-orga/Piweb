@@ -30,7 +30,6 @@ class AvisController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $avi-> setDateavis (new \DateTime());
             $entityManager->persist($avi);
             $entityManager->flush();
 

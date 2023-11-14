@@ -7,11 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
-use Doctrine\ORM\EntityManagerInterface;
- 
-
 class AvisType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -19,15 +14,10 @@ class AvisType extends AbstractType
         $builder
             ->add('pubavis')
             ->add('titreavis')
-            ->add('user', EntityType::class, [
-                'class' => 'App\Entity\User',
-                'choice_label' => 'username',
-            ])
-            ->add('restaurant', EntityType::class, [
-                'class' => 'App\Entity\Restaurant',
-                'choice_label' => 'nom',
-            ]);
-            
+            ->add('dateavis')
+            ->add('user')
+            ->add('restaurant')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -36,7 +26,4 @@ class AvisType extends AbstractType
             'data_class' => Avis::class,
         ]);
     }
- 
-
-
 }

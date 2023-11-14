@@ -1,58 +1,39 @@
 <?php
 
 namespace App\Entity;
-use App\Repository\RestaurantRepository;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
-#[ORM\Entity(repositoryClass: RestaurantRepository::class)]
+/**
+ * Restaurant
+ *
+ * @ORM\Table(name="restaurant")
+ * @ORM\Entity
+ */
 class Restaurant
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id_restau = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_restau", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idRestau;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
-    
-    #[ORM\Column(length: 255)]
-    private ?string $location = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=20, nullable=false)
+     */
+    private $nom;
 
-  
-    public function getIdRestau(): ?int
-    {
-        return $this->id_restau;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(string $location): static
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-
-
-   
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=11, nullable=false)
+     */
+    private $location;
 
 
 }

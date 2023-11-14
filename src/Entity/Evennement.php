@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Entity;
+
+
+
 use App\Repository\EvennementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: EvennementRepository::class)]
 
 class Evennement
@@ -12,7 +15,11 @@ class Evennement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+  
     private ?int $idevent = null;
+
+
+    
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
@@ -110,7 +117,9 @@ class Evennement
         $this->adresse = $adresse;
 
         return $this;
-    }   
+    }  
+    
+  
 
 
 }

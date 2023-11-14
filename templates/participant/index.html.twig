@@ -11,6 +11,8 @@
                 <th>Idparticipant</th>
                 <th>Datepar</th>
                 <th>Numero</th>
+                <th>username </th>
+                <th>titre </th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +22,8 @@
                 <td>{{ participant.idparticipant }}</td>
                 <td>{{ participant.datepar ? participant.datepar|date('Y-m-d') : '' }}</td>
                 <td>{{ participant.numero }}</td>
+                  <td>{{ participant.User.username }}</td>
+                   <td>{{ participant.event.titre}}</td>
                 <td>
                     <a href="{{ path('app_participant_show', {'idparticipant': participant.idparticipant}) }}">show</a>
                     <a href="{{ path('app_participant_edit', {'idparticipant': participant.idparticipant}) }}">edit</a>

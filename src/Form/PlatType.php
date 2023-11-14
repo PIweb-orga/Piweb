@@ -6,7 +6,6 @@ use App\Entity\Plat;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PlatType extends AbstractType
 {
@@ -17,13 +16,7 @@ class PlatType extends AbstractType
             ->add('description')
             ->add('image')
             ->add('prix')
-            ->add('categorie',ChoiceType::class,[
-                'choices'=>[ 
-                    'Dessert'=>'Dessert',
-                   'Pizza'=>'Pizza',
-                   'Boissons'=>'Boissons',
-                   'Berger'=>'Berger'
-    ]])
+            ->add('categorie')
         ;
     }
 

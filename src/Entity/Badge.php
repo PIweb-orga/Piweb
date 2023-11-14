@@ -2,104 +2,65 @@
 
 namespace App\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\BadgeRepository;
-use Doctrine\DBAL\Types\Types;
 
-#[ORM\Entity(repositoryClass: BadgeRepository::class)]
+/**
+ * Badge
+ *
+ * @ORM\Table(name="badge", indexes={@ORM\Index(name="idrestau", columns={"id_restau"}), @ORM\Index(name="iduser", columns={"iduser"})})
+ * @ORM\Entity
+ */
 class Badge
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $commantaire = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commantaire", type="string", length=2000, nullable=false)
+     */
+    private $commantaire;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $datebadge = null;  
-    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateBadge", type="date", nullable=false)
+     */
+    private $datebadge;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typebadge = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="typeBadge", type="string", length=0, nullable=false)
+     */
+    private $typebadge;
 
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
+     * })
+     */
+    private $iduser;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
-    private ?User $user=null;
-
-    #[ORM\ManyToOne(inversedBy: 'avis')]
-    #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
-    private ?Restaurant $restaurant = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getCommantaire(): ?string
-    {
-        return $this->commantaire;
-    }
-
-    public function setCommantaire(string $commantaire): static
-    {
-        $this->commantaire = $commantaire;
-
-        return $this;
-    }
-
-    public function getDatebadge(): ?\DateTimeInterface
-    {
-        return $this->datebadge;
-    }
-
-    public function setDatebadge(\DateTimeInterface $datebadge): static
-    {
-        $this->datebadge = $datebadge;
-
-        return $this;
-    }
-
-    public function getTypebadge(): ?string
-    {
-        return $this->typebadge;
-    }
-
-    public function setTypebadge(string $typebadge): static
-    {
-        $this->typebadge = $typebadge;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): static
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
-    }
-
-
+    /**
+     * @var \Restaurant
+     *
+     * @ORM\ManyToOne(targetEntity="Restaurant")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_restau", referencedColumnName="id_restau")
+     * })
+     */
+    private $idRestau;
 
 
 }
