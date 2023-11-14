@@ -3,6 +3,8 @@
 {% block title %}Reponse index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
+
     <h1>Reponse index</h1>
 
     <table border="1" class="table">
@@ -21,8 +23,15 @@
                 <td>{{ reponse.contenue }}</td>
                 <td>{{ reponse.daterep ? reponse.daterep|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_reponse_show', {'idrep': reponse.idrep}) }}">show</a>
-                    <a href="{{ path('app_reponse_edit', {'idrep': reponse.idrep}) }}">edit</a>
+
+                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_reponse_show', {'idrep': reponse.idrep}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_reponse_edit', {'idrep': reponse.idrep}) }}'">
+    Edit
+</button>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +41,10 @@
         {% endfor %}
         </tbody>
     </table>
+<form method="get" action="{{ path('app_reponse_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
 
-    <a href="{{ path('app_reponse_new') }}">Create new</a>
+      </div>
 {% endblock %}
+ 
