@@ -3,9 +3,10 @@
 {% block title %}Achat index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Achat index</h1>
 
-    <table class="table">
+    <table border="1" class="table">
         <thead>
             <tr>
                 <th>Idachat</th>
@@ -13,7 +14,7 @@
                 <th>Quantite</th>
                 <th>Date</th>
                 <th>Type</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -25,8 +26,16 @@
                 <td>{{ achat.date ? achat.date|date('Y-m-d') : '' }}</td>
                 <td>{{ achat.type }}</td>
                 <td>
-                    <a href="{{ path('app_achat_show', {'idachat': achat.idachat}) }}">show</a>
-                    <a href="{{ path('app_achat_edit', {'idachat': achat.idachat}) }}">edit</a>
+
+
+<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_achat_show', {'idachat': achat.idachat}) }}'">
+    Show
+</button>
+</td>
+<td>
+<button class="btn btn-warning" onclick="window.location.href='{{ path('app_achat_edit', {'idachat': achat.idachat}) }}'">
+    Edit
+</button>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +46,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_achat_new') }}">Create new</a>
+   <form method="get" action="{{ path('app_achat_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
 {% endblock %}

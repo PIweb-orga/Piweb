@@ -1,49 +1,69 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\ReponseRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Reponse
- *
- * @ORM\Table(name="reponse", indexes={@ORM\Index(name="vvvv", columns={"idrec"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ReponseRepository::class)]
+
 class Reponse
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idrep", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idrep;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idrep = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="contenue", type="string", length=20, nullable=false)
-     */
-    private $contenue;
+    #[ORM\Column(length: 255)]
+    private ?string $contenue = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $daterep = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="daterep", type="date", nullable=false)
-     */
-    private $daterep;
 
-    /**
-     * @var \Reclamation
-     *
-     * @ORM\ManyToOne(targetEntity="Reclamation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idrec", referencedColumnName="idrec")
-     * })
-     */
-    private $idrec;
+    #[ORM\OneToOne(targetEntity: Reclamation::class)]
+    #[ORM\JoinColumn(name: 'idrec', referencedColumnName: 'idrec')]
+    private ?Reclamation $reclamation=null;
+
+    public function getIdrep(): ?int
+    {
+        return $this->idrep;
+    }
+
+    public function getContenue(): ?string
+    {
+        return $this->contenue;
+    }
+
+    public function setContenue(string $contenue): static
+    {
+        $this->contenue = $contenue;
+
+        return $this;
+    }
+
+    public function getDaterep(): ?\DateTimeInterface
+    {
+        return $this->daterep;
+    }
+
+    public function setDaterep(\DateTimeInterface $daterep): static
+    {
+        $this->daterep = $daterep;
+
+        return $this;
+    }
+
+    public function getReclamation(): ?Reclamation
+    {
+        return $this->reclamation;
+    }
+
+    public function setReclamation(?Reclamation $reclamation): static
+    {
+        $this->reclamation = $reclamation;
+
+        return $this;
+    }
 
 
 }

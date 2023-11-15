@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Evennement;
-use App\Repository\UserRepository;
-use App\Repository\EvennementRepository;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;

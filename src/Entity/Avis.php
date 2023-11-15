@@ -13,24 +13,29 @@ class Avis
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $id;
+    private ?int $id = null;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $pubavis = null;
 
-    #[ORM\Column(length:35)]
-    private $pubavis;
+    #[ORM\Column(length: 255)]
+    private ?string $titreavis = null;
 
-    #[ORM\Column(length:35)]
-    private $titreavis;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateavis = null;
+    private ?\DateTimeInterface $dateavis = null;   
     
 
-    #[ORM\ManyToOne(inversedBy: 'Avis')]
-   private ?User $user=null;
     
-   #[ORM\ManyToOne(inversedBy: 'Avis')]
-   private ?Restaurant $restaurant=null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;
 
+    #[ORM\ManyToOne(inversedBy: 'avis')]
+    #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
+    private ?Restaurant $restaurant = null;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -60,17 +65,7 @@ class Avis
         return $this;
     }
 
-    public function getDateavis(): ?string
-    {
-        return $this->dateavis;
-    }
-
-    public function setDateavis(string $dateavis): static
-    {
-        $this->dateavis = $dateavis;
-
-        return $this;
-    }
+  
 
     public function getUser(): ?User
     {
@@ -83,6 +78,20 @@ class Avis
 
         return $this;
     }
+
+    public function getDateavis(): ?\DateTimeInterface
+    {
+        return $this->dateavis;
+    }
+
+    public function setDateavis(\DateTimeInterface $dateavis): static
+    {
+        $this->dateavis = $dateavis;
+
+        return $this;
+    }
+
+   
 
     public function getRestaurant(): ?Restaurant
     {

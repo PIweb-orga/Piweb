@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 use App\Repository\AchatRepository;
 use Doctrine\DBAL\Types\Types;
@@ -26,10 +25,12 @@ class Achat
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'achat')]
-    private ?User $user=null;
-
-    #[ORM\ManyToOne(inversedBy: 'achat')]
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    private ?User $user=null;    
+    
+    #[ORM\OneToOne(targetEntity: Plat::class)]
+    #[ORM\JoinColumn(name: 'idplat', referencedColumnName: 'idplat')]
     private ?Plat $plat=null;
 
     private $idplat;
