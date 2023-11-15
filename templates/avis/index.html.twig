@@ -3,28 +3,44 @@
 {% block title %}Avis index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Avis index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Pubavis</th>
                 <th>Titreavis</th>
+                <th>Pubavis</th>
                 <th>Dateavis</th>
-                <th>actions</th>
+                <th>username</th>
+                <th>nom</th>
+                
             </tr>
         </thead>
         <tbody>
         {% for avi in avis %}
             <tr>
                 <td>{{ avi.id }}</td>
-                <td>{{ avi.pubavis }}</td>
                 <td>{{ avi.titreavis }}</td>
+                <td>{{ avi.pubavis }}</td>
                 <td>{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</td>
+                <td>{{ avi.user.username }}</td>
+                <td>{{ avi.restaurant.nom }}</td>
                 <td>
-                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
+
+<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_avis_show', {'id': avi.id}) }}'">
+    Show
+</button>
+
+<button class="btn btn-warning" onclick="window.location.href='{{ path('app_avis_edit', {'id': avi.id}) }}'">
+    Edit
+</button>
+
+
+                </td>
+                <td>
+                {{ include('avis/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -35,5 +51,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_avis_new') }}">Create new</a>
+ <form method="get" action="{{ path('app_avis_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
 {% endblock %}

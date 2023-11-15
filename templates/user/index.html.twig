@@ -6,9 +6,13 @@
 
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
+    <!-- Contenu de votre élément -->
+
+
     <h1>User index</h1>
 
-    <table class="table" >
+    <table class="table"  >
         <thead>
             <tr>
                 <th>Iduser</th>
@@ -20,7 +24,7 @@
                 <th>Tel</th>
                 <th>Address</th>
                 <th>Role</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -36,8 +40,15 @@
                 <td>{{ user.address }}</td>
                 <td>{{ user.role }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'iduser': user.iduser}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'iduser': user.iduser}) }}">edit</a>
+<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_user_show', {'iduser': user.iduser}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_user_edit', {'iduser': user.iduser}) }}'">
+    Edit
+</button>
+
                 </td>
             </tr>
         {% else %}
@@ -47,10 +58,11 @@
         {% endfor %}
         </tbody>
     </table>
+<form method="get" action="{{ path('app_user_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
-{% endblock %}
-{% block footer %}
-a
-{% endblock %}
+</div>{% endblock %}
+
+
 

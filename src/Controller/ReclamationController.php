@@ -10,6 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
+
+
 
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
@@ -41,6 +52,26 @@ class ReclamationController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new1', name: 'app_reclamation_new1', methods: ['GET', 'POST'])]
+    public function new1(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $reclamation = new Reclamation();
+        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($reclamation);
+            $entityManager->flush();
+
+            
+        }
+
+        return $this->renderForm('reclamation/new1.html.twig', [
+            'reclamation' => $reclamation,
+            'form' => $form,
+        ]);
+    }
+   
 
     #[Route('/{idrec}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
