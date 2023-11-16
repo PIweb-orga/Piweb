@@ -3,8 +3,9 @@
 namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
-
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
@@ -15,17 +16,22 @@ class Reclamation
     private ?int $idrec = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
+
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
     private ?string $description = null;
 
     
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
     private ?string $typerec = null;
 
     
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire')]
     private ?string $etatrec = null;
 
     #[ORM\OneToOne(targetEntity: User::class)]

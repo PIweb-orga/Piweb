@@ -32,6 +32,7 @@
                   <button class="btn btn-warning" onclick="window.location.href='{{ path('app_reponse_edit', {'idrep': reponse.idrep}) }}'">
     Edit
 </button>
+{{ include('reponse/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

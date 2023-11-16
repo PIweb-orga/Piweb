@@ -42,7 +42,26 @@ class BadgeController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new66', name: 'app_badge_new66', methods: ['GET', 'POST'])]
+    public function new66(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $badge = new Badge();
+        $form = $this->createForm(BadgeType::class, $badge);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $badge-> setDatebadge (new \DateTime());
+            $entityManager->persist($badge);
+            $entityManager->flush();
+
+         
+        }
+
+        return $this->renderForm('badge/new66.html.twig', [
+            'badge' => $badge,
+            'form' => $form,
+        ]);
+    }
     #[Route('/{id}', name: 'app_badge_show', methods: ['GET'])]
     public function show(Badge $badge): Response
     {
