@@ -3,29 +3,38 @@
 {% block title %}Badge index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Badge index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                
                 <th>Commantaire</th>
                 <th>Datebadge</th>
                 <th>Typebadge</th>
-                <th>actions</th>
+                
             </tr>
         </thead>
         <tbody>
         {% for badge in badges %}
             <tr>
-                <td>{{ badge.id }}</td>
+                
                 <td>{{ badge.commantaire }}</td>
                 <td>{{ badge.datebadge ? badge.datebadge|date('Y-m-d') : '' }}</td>
                 <td>{{ badge.typebadge }}</td>
                 <td>
-                    <a href="{{ path('app_badge_show', {'id': badge.id}) }}">show</a>
-                    <a href="{{ path('app_badge_edit', {'id': badge.id}) }}">edit</a>
+                                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
+    Edit
+</button>
                 </td>
+                                <td> {{ include('badge/_delete_formFront.html.twig') }}</td>
+
             </tr>
         {% else %}
             <tr>
@@ -35,5 +44,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_badge_new') }}">Create new</a>
+   <form method="get" action="{{ path('app_badge_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
 {% endblock %}

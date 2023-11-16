@@ -41,6 +41,25 @@ class ParticipantController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new22', name: 'app_participant_new22', methods: ['GET', 'POST'])]
+    public function new22(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $participant = new Participant();
+        $form = $this->createForm(ParticipantType::class, $participant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+           
+        }
+
+        return $this->renderForm('participant/new22.html.twig', [
+            'participant' => $participant,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/{idparticipant}', name: 'app_participant_show', methods: ['GET'])]
     public function show(Participant $participant): Response

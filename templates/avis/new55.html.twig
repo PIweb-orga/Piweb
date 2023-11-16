@@ -1,0 +1,18 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Avis{% endblock %}
+
+{% block bodyAvis %}
+
+    <h1>Create new Avis</h1>
+
+    <section id="nouvelle-avis">
+        {{ include('avis/_form.html.twig') }}
+    </section>
+    <div class="fils" >
+    <form method="get" action="{{ path('app_avis_indexFront') }}">
+    <button type="submit" class="btn btn-primary">back to list</button>
+</form>
+</div>
+{% endblock %}
+

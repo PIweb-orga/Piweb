@@ -3,37 +3,55 @@
 {% block title %}Avis index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
+<div class="container">
     <h1>Avis index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Pubavis</th>
-                <th>Titreavis</th>
-                <th>Dateavis</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
         {% for avi in avis %}
-            <tr>
-                <td>{{ avi.id }}</td>
-                <td>{{ avi.pubavis }}</td>
-                <td>{{ avi.titreavis }}</td>
-                <td>{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="col-md-9 mb-4">
+            <div class="card">
+             <div class="card-header ">
+                 <img src="{{ asset('Frontend/assets/images/about-thumb-03.jpg') }}" alt="Profile Image" class="profile-image rounded-circle ml-2" width="40" height="40">
 
-    <a href="{{ path('app_avis_new') }}">Create new</a>
+    <span>{{ avi.user.username }}</span>
+    </br>
+<h5 class="card-title">{{ avi.titreavis }}</h5>
+</div>
+
+
+                <div class="card-body">
+                    <p class="card-text">J'ai récemment visité le restaurant Le {{ avi.restaurant.nom }}</p>
+                    
+                    <p class="card-text">{{ avi.pubavis }}</p>
+                    
+                </div>
+
+                <!-- Pied de la carte avec la date et les boutons -->
+                <div class="card-footer text-center">
+                    <p class="date-text">{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</p>
+                    <div >
+                    <tr>
+                    <td>
+                    </td>
+   <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_avis_show', {'id': avi.id}) }}'">
+    Show
+</button>
+
+
+    {{ include('avis/_delete_form.html.twig') }}
+    </tr>
+</div>
+
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+            <p>No records found</p>
+        {% endfor %}
+    </div>
+    </div>
+
+  
+</div>
 {% endblock %}

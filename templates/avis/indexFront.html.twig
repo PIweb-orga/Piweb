@@ -1,0 +1,63 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block bodyr %}
+<div class="container">
+</br></br>
+    <h1>Tu peux ajouter un Avis</h1>
+    <div class="row">
+        {% for avi in avis %}
+        <div class="col-md-9 mb-4">
+            <div class="card">
+             <div class="card-header ">
+                 <img src="{{ asset('Frontend/assets/images/about-thumb-03.jpg') }}" alt="Profile Image" class="profile-image rounded-circle ml-2" width="40" height="40">
+
+    <span>{{ avi.user.username }}</span>
+    </br>
+<h5 class="card-title">{{ avi.titreavis }}</h5>
+</div>
+
+
+                <div class="card-body">
+                    <p class="card-text">J'ai récemment visité le restaurant Le {{ avi.restaurant.nom }}</p>
+                    
+                    <p class="card-text">{{ avi.pubavis }}</p>
+                    
+                </div>
+
+                <!-- Pied de la carte avec la date et les boutons -->
+                <div class="card-footer text-center">
+                    <p class="date-text">{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</p>
+                    <div >
+                    <tr>
+                    <td>
+                    </td>
+ <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_avis_show55', {'id': avi.id}) }}'">
+    Show
+</button>
+ <button class="btn btn-warning" onclick="window.location.href='{{ path('app_avis_editFront', {'id': avi.id}) }}'">
+    edit
+</button>
+
+
+   <td> {{ include('avis/_delete_formFront.html.twig') }}</td>
+    </tr>
+</div>
+
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+            <p>No records found</p>
+        {% endfor %}
+    </div>
+
+    <div class="mt-3" style="padding-left: 300px;">
+        <form method="get" action="{{ path('app_avis_new55') }}">
+            <button type="submit" class="btn btn-primary">Create new</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

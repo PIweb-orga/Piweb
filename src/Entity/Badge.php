@@ -16,6 +16,8 @@ class Badge
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le champ commantaire ne peut pas être vide')]
+    #[Assert\Length(min: 3, minMessage: 'Le commantaire doit comporter au moins {{ limit }} caractères')]
     private ?string $commantaire = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

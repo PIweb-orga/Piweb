@@ -24,7 +24,7 @@ class Reservation
    
 
     #[ORM\OneToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'iduser')]
     private ?User $user=null;    
    
 

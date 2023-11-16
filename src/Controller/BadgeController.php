@@ -21,6 +21,13 @@ class BadgeController extends AbstractController
             'badges' => $badgeRepository->findAll(),
         ]);
     }
+    #[Route('frontbadge/', name: 'app_badge_indexFront', methods: ['GET'])]
+    public function indexf(BadgeRepository $badgeRepository): Response
+    {
+        return $this->render('badge/indexFront.html.twig', [
+            'badges' => $badgeRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_badge_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -42,11 +49,37 @@ class BadgeController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new66', name: 'app_badge_new66', methods: ['GET', 'POST'])]
+    public function new66(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $badge = new Badge();
+        $form = $this->createForm(BadgeType::class, $badge);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $badge-> setDatebadge (new \DateTime());
+            $entityManager->persist($badge);
+            $entityManager->flush();
+
+         
+        }
+
+        return $this->renderForm('badge/new66.html.twig', [
+            'badge' => $badge,
+            'form' => $form,
+        ]);
+    }
     #[Route('/{id}', name: 'app_badge_show', methods: ['GET'])]
     public function show(Badge $badge): Response
     {
         return $this->render('badge/show.html.twig', [
+            'badge' => $badge,
+        ]);
+    }
+    #[Route('sh/{id}', name: 'app_badge_show66', methods: ['GET'])]
+    public function showFr(Badge $badge): Response
+    {
+        return $this->render('badge/show66.html.twig', [
             'badge' => $badge,
         ]);
     }
@@ -68,6 +101,23 @@ class BadgeController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/{id}/editFront', name: 'app_badge_editFront', methods: ['GET', 'POST'])]
+    public function editFront(Request $request, Badge $badge, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(BadgeType::class, $badge);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_badge_indexFront', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('badge/editFront.html.twig', [
+            'badge' => $badge,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/{id}', name: 'app_badge_delete', methods: ['POST'])]
     public function delete(Request $request, Badge $badge, EntityManagerInterface $entityManager): Response
@@ -78,5 +128,15 @@ class BadgeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_badge_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('badgef/{id}', name: 'app_badge_deleteFront', methods: ['POST'])]
+    public function deleteFront(Request $request, Badge $badge, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$badge->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($badge);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_badge_indexFront', [], Response::HTTP_SEE_OTHER);
     }
 }
