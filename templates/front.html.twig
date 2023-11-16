@@ -63,8 +63,10 @@ https://templatemo.com/tm-558-klassy-cafe
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li><a href="{{ path('app_user_new') }}" class="page-scroll">Sign in</a></li>  
-                           	<li><a href="{{ path('app_reclamation_new') }}" class="page-scroll">Reclamation</a></li>
+                          <li><a href="#nouvelle-user" class="page-scroll">Sign in</a></li>  
+                          <li><a href="#nouvelle-reclamation" class="page-scroll">Reclamation</a></li>
+                          <li><a href="#nouvelle-avis" class="page-scroll">Avis</a></li>
+                          <li><a href="#nouvelle-badge" class="page-scroll">Badge</a></li>
                         <!-- 
                             <li class="submenu">
                                 <a href="javascript:;">Drop Down</a>
@@ -76,10 +78,10 @@ https://templatemo.com/tm-558-klassy-cafe
                             </li>
                         -->
                             <li><a href="" class="page-scroll">Restaurant</a></li> 
-                            <li><a href="{{ path('app_evennement_new') }}" class="page-scroll">Event</a></li>    
-                            <li><a href="{{ path('app_achat_new') }}" class="page-scroll">Achat</a></li>  
+                            <li><a href="#nouvelle-participant" class="page-scroll">Event</a></li>    
+                            <li><a href="#nouvelle-achat" class="page-scroll">Achat</a></li>  
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
-                             <li><a href="" class="page-scroll">Avis</a></li> 
+                            
                         </ul>        
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -339,7 +341,8 @@ https://templatemo.com/tm-558-klassy-cafe
         </div>
     </section>
     <!-- ***** Chefs Area Ends ***** -->
-
+{% block body %}
+{% endblock %}
     <!-- ***** Reservation Us Area Starts ***** -->
     <section class="section" id="reservation">
         <div class="container">
@@ -793,6 +796,5 @@ https://templatemo.com/tm-558-klassy-cafe
     
 {% endblock %}
   </body>
-  {% block body %}
-{% endblock %}
+  
 </html>

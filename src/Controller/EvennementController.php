@@ -28,14 +28,32 @@ class EvennementController extends AbstractController
         $evennement = new Evennement();
         $form = $this->createForm(EvennementType::class, $evennement);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $form->get('img')->getData();
+    
+            // If a file was uploaded
+            if ($file) {
+                $filename = uniqid() . '.' . $file->guessExtension();
+    
+                // Move the file to the directory where event images are stored
+                $file->move(
+                    'eventimages',
+                    $filename
+                );
+    
+                // Update the 'img' property to store the image file name
+                // instead of its contents
+                $evennement->setImg($filename);
+            }
+    
             $entityManager->persist($evennement);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('evennement/new.html.twig', [
             'evennement' => $evennement,
             'form' => $form,
@@ -57,6 +75,7 @@ class EvennementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);

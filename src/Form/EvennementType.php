@@ -20,7 +20,10 @@ class EvennementType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ])
-            ->add('img', FileType::class, ['mapped' => false])
+            ->add('img', FileType::class, [ 
+                'label'=>'image',
+                'required' => false,
+                'mapped' => false])
             ->add('lieu')
             ->add('adresse')
         ;

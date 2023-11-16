@@ -13,6 +13,8 @@
                 <th>Datepar</th>
                 <th>Numero</th>
                 <th>actions</th>
+                 <th>username</th>
+                  <th>Titre</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +23,8 @@
                 <td>{{ participant.idparticipant }}</td>
                 <td>{{ participant.datepar ? participant.datepar|date('Y-m-d') : '' }}</td>
                 <td>{{ participant.numero }}</td>
+                <td>{{ participant.User.username }}</td>
+                   <td>{{ participant.event.titre}}</td>
                 <td>
 
                 <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_participant_show', {'idparticipant': participant.idparticipant}) }}'">
@@ -32,7 +36,8 @@
                   <button class="btn btn-warning" onclick="window.location.href='{{ path('app_participant_edit', {'idparticipant': participant.idparticipant}) }}'">
     Edit
 </button>
-                </td>
+{{ include('participant/_delete_form.html.twig') }}
+                </td> 
             </tr>
         {% else %}
             <tr>

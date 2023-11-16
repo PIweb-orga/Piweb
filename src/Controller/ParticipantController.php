@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Evennement;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
@@ -41,6 +42,30 @@ class ParticipantController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new22', name: 'app_participant_new22', methods: ['GET', 'POST'])]
+public function new22(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $participant = new Participant();
+   
+    $form = $this->createForm(ParticipantType::class, $participant);
+    $form->handleRequest($request);
+   
+    // Fetch the events from the repository
+    $eventRepository = $entityManager->getRepository(Evennement::class);
+    $evennements = $eventRepository->findAll();
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $evennement = $participant->getEvent();
+        $entityManager->persist($participant);
+        $entityManager->flush();
+    }
+
+    return $this->renderForm('participant/new22.html.twig', [
+        'participant' => $participant,
+        'form' => $form,
+        'evennement' => $evennements, // Pass the events to the template
+    ]);
+}
 
     #[Route('/{idparticipant}', name: 'app_participant_show', methods: ['GET'])]
     public function show(Participant $participant): Response
