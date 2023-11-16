@@ -3,6 +3,7 @@
 {% block title %}Plat index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Plat index</h1>
 
     <table  class="table">
@@ -14,7 +15,7 @@
                 <th>Image</th>
                 <th>Prix</th>
                 <th>Categorie</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -23,13 +24,25 @@
                 <td>{{ plat.idplat }}</td>
                 <td>{{ plat.nom }}</td>
                 <td>{{ plat.description }}</td>
-                <td>{{ plat.image }}</td>
+                <td>
+                    <img src="{{asset('platimage/' ~ plat.image)}}" style="height:100px;"</img>
+                    {{ plat.image }}</td>
                 <td>{{ plat.prix }}</td>
                 <td>{{ plat.categorie }}</td>
                 <td>
-                    <a href="{{ path('app_plat_show', {'idplat': plat.idplat}) }}">show</a>
-                    <a href="{{ path('app_plat_edit', {'idplat': plat.idplat}) }}">edit</a>
+
+                                        <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_plat_show', {'idplat': plat.idplat}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_plat_edit', {'idplat': plat.idplat}) }}'">
+    Edit
+</button>
                 </td>
+                <td>
+                    {{ include('plat/_delete_form.html.twig') }}
+                    </td>
             </tr>
         {% else %}
             <tr>
@@ -38,6 +51,9 @@
         {% endfor %}
         </tbody>
     </table>
+<form method="get" action="{{ path('app_plat_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
 
-    <a href="{{ path('app_plat_new') }}">Create new</a>
+    </div>
 {% endblock %}

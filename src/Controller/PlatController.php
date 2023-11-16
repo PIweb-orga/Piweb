@@ -17,9 +17,11 @@ class PlatController extends AbstractController
     #[Route('/', name: 'app_plat_index', methods: ['GET'])]
     public function index(PlatRepository $platRepository): Response
     {
-        return $this->render('plat/index.html.twig', [
+        return $this->render('plat/plats_list.html.twig', [
             'plats' => $platRepository->findAll(),
         ]);
+        //index.html.twig
+        //plats_list.html.twig
     }
 
     #[Route('/new', name: 'app_plat_new', methods: ['GET', 'POST'])]
@@ -30,6 +32,19 @@ class PlatController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+/** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form->get('image')->getData();
+    
+            if ($file) {
+                $filename = uniqid() . '.' . $file->guessExtension();
+    
+                $file->move(
+                    'platimage',
+                    $filename
+                );
+    
+                $plat->setImage($filename);
+            }
             $entityManager->persist($plat);
             $entityManager->flush();
 

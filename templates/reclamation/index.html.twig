@@ -3,6 +3,7 @@
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Reclamation index</h1>
 
     <table border="1" class="table">
@@ -13,7 +14,7 @@
                 <th>Description</th>
                 <th>Typerec</th>
                 <th>Etatrec</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -24,9 +25,16 @@
                 <td>{{ reclamation.description }}</td>
                 <td>{{ reclamation.typerec }}</td>
                 <td>{{ reclamation.etatrec }}</td>
-                <td>
-                    <a href="{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'idrec': reclamation.idrec}) }}">edit</a>
+               <td>
+<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}'">
+    Show
+</button>
+</td>
+<td>
+<button class="btn btn-warning" onclick="window.location.href='{{ path('app_reclamation_edit', {'idrec': reclamation.idrec}) }}'">
+    Edit
+</button>
+{{ include('reclamation/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -37,5 +45,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+   <form method="get" action="{{ path('app_reclamation_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
 {% endblock %}

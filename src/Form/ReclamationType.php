@@ -8,6 +8,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ReclamationType extends AbstractType
 {
@@ -18,18 +21,39 @@ class ReclamationType extends AbstractType
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
         ])
-            ->add('description')
+        ->add('description', TextType::class, [
+            'attr' => [
+                'placeholder' => 'Description',
+            ],
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Ce champ est obligatoire'
+                ])
+            ]
+                ])
             ->add('typerec',ChoiceType::class,[
                 'choices'=>[ 
                 'facturation'=>'facturation',
                 'qualite_nourriture'=>'qualite_nourriture',
                 'service'=>'service'
+                   ],
+                   'placeholder' => 'Séléctionner type',
+                   'constraints' => [
+                       new NotBlank([
+                           'message' => 'Ce champ est obligatoire'
+                       ])
                    ]] )
             ->add('etatrec',ChoiceType::class,[
                 'choices'=>[ 
                 'en_attente'=>'en_attente',
                 'en_cours'=>'en_cours',
                 'resolue'=>'resolue'
+                   ],
+                   'placeholder' => 'Séléctionner type',
+                   'constraints' => [
+                       new NotBlank([
+                           'message' => 'Ce champ est obligatoire'
+                       ])
                    ]] )
             ->add('user', EntityType::class, [
                 'class' => 'App\Entity\User',

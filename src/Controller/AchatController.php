@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Achat;
+use App\Entity\Plat;
 use App\Form\AchatType;
+use App\Form\PanierType;
 use App\Repository\AchatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +39,25 @@ class AchatController extends AbstractController
         }
 
         return $this->renderForm('achat/new.html.twig', [
+            'achat' => $achat,
+            'form' => $form,
+        ]);
+    }
+    #[Route('/new33', name: 'app_achat_new33', methods: ['GET', 'POST'])]
+    public function new33(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $achat = new Achat();
+        $form = $this->createForm(AchatType::class, $achat);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($achat);
+            $entityManager->flush();
+
+          
+        }
+
+        return $this->renderForm('achat/new33.html.twig', [
             'achat' => $achat,
             'form' => $form,
         ]);
@@ -78,4 +99,39 @@ class AchatController extends AbstractController
 
         return $this->redirectToRoute('app_achat_index', [], Response::HTTP_SEE_OTHER);
     }
-}
+   
+   /* #[Route('/ajouterAuPanier/{id}', name: 'ajouter_au_panier', methods: ['GET', 'POST'])]
+    public function ajouterAuPanier(Request $request, Plat $plat): Response
+    {
+        $achat = new Achat();
+        $achat->setPlat($plat);
+    
+        $form = $this->createForm(PanierType::class, $achat);
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Assuming you have a method like calculateTotalAmount in the Achat entity
+            $montantTotal = $achat->calculateTotalAmount();
+            $achat->setMontanttotal($montantTotal);
+    
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($achat);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Plat ajouté au panier avec succès!');
+    
+            return $this->redirectToRoute('panier/panier_affichage.html.twig');
+        }
+    
+        return $this->render('panier/create_panier.html.twig', [
+            'form' => $form->createView(),
+        ]);*/
+    }
+    
+
+    
+
+    
+
+
