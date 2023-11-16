@@ -22,7 +22,7 @@ security:
             entry_point: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                target: /
+                target: /login
                 # where to redirect after logout
                 # target: app_any_route
 

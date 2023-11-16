@@ -17,9 +17,7 @@ class RegistrationController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    /**
-     * @Route("/registration", name="registration")
-     */
+    #[Route("/registration", name: "registration")]
     public function index(Request $request)
     {
         $user = new User();

@@ -63,7 +63,7 @@ https://templatemo.com/tm-558-klassy-cafe
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li><a href="#nouvelle-user" class="page-scroll">Sign in</a></li>  
+                          <li><a href="{{path('registration')}}" class="page-scroll">Sign in</a></li>  
                           <li><a href="#nouvelle-reclamation" class="page-scroll">Reclamation</a></li>
                           <li><a href="#nouvelle-avis" class="page-scroll">Avis</a></li>
                           <li><a href="#nouvelle-badge" class="page-scroll">Badge</a></li>
@@ -80,6 +80,11 @@ https://templatemo.com/tm-558-klassy-cafe
                             <li><a href="" class="page-scroll">Restaurant</a></li> 
                             <li><a href="#nouvelle-participant" class="page-scroll">Event</a></li>    
                             <li><a href="#nouvelle-achat" class="page-scroll">Achat</a></li>  
+                            <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{path('app_logout')}}">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Sign Out</span>
+                                    </a>
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
                             
                         </ul>        

@@ -38,7 +38,7 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.tel }}</td>
                 <td>{{ user.address }}</td>
-                <td>{{ user.role }}</td>
+                <td>{{ user.role|join(', ') }}</td>
                 <td>
 <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_user_show', {'iduser': user.iduser}) }}'">
     Show
@@ -49,6 +49,9 @@
     Edit
 </button>
 
+                </td>
+                <td>
+                {{ include('user/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

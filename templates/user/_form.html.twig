@@ -29,12 +29,10 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
-    </div>
-    <div class="col-md-6">
-        {{ form_row(form.role, {'attr': {'class': 'form-select'}}) }}
-    </div>
+   <div class="col-md-6">
+            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+        </div>
+    
 </div>
 
 <div class="mt-3">
