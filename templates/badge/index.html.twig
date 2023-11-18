@@ -3,50 +3,56 @@
 {% block title %}Badge index{% endblock %}
 
 {% block body %}
-<div class="fils" style="padding-left: 300px;">
-    <h1>Badge index</h1>
+    <div class="fils" style="padding-left: 300px;">
+        <h1>Badge index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                
-                <th>Commantaire</th>
-                <th>Datebadge</th>
-                <th>Typebadge</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-        {% for badge in badges %}
-            <tr>
-                
-                <td>{{ badge.commantaire }}</td>
-                <td>{{ badge.datebadge ? badge.datebadge|date('Y-m-d') : '' }}</td>
-                <td>{{ badge.typebadge }}</td>
-                <td>
-                                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
-    Show
-</button>
-</td>
-<td>
-                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
-    Edit
-</button>
-                </td>
-                                <td> {{ include('badge/_delete_formFront.html.twig') }}</td>
+        <table class="table">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    <th>Commentaire</th>
+                    <th>Datebadge</th>
+                    <th>Typebadge</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for badge in badges %}
+                    <!-- Table Row -->
+                    <tr>
+                        <td>{{ badge.commantaire }}</td>
+                        <td>{{ badge.datebadge ? badge.datebadge|date('Y-m-d') : '' }}</td>
+                        <td>{{ badge.typebadge }}</td>
+                        <td>
+                            <!-- Actions Buttons -->
+                            <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
+                                Show
+                            </button>
+                            <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
+                                Edit
+                            </button>
+                            {{ include('badge/_delete_formFront.html.twig') }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <!-- No Records Found -->
+                    <tr>
+                        <td colspan="4">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {# {{ knp_pagination_render(rap) }} #}
-   <form method="get" action="{{ path('app_badge_new') }}">
-    <button type="submit" class="btn btn-primary">Create new</button>
-</form>
+        <!-- Pagination -->
+        
+        <div class="pagination">
+            {{ knp_pagination_render(badges) }}
+        </div>
+       
 
+        <!-- Create New Button -->
+        <form method="get" action="{{ path('app_badge_new') }}">
+            <button type="submit" class="btn btn-primary">Create new</button>
+        </form>
     </div>
 {% endblock %}

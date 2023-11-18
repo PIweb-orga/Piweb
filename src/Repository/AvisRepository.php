@@ -45,4 +45,29 @@ class AvisRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function advancedSearchQuery($username, $restaurantName, $date)
+{
+    $queryBuilder = $this->createQueryBuilder('a')
+        ->leftJoin('a.user', 'u')
+        ->leftJoin('a.restaurant', 'r');
+
+    if ($username !== null) {
+        $queryBuilder->andWhere('u.username = :username')
+            ->setParameter('username', $username);
+    }
+
+    if ($restaurantName !== null) {
+        $queryBuilder->andWhere('r.nom = :restaurant_name')
+            ->setParameter('restaurant_name', $restaurantName);
+    }
+
+    if ($date !== null) {
+        $queryBuilder->andWhere('a.dateavis >= :date')
+            ->setParameter('date', new \DateTime($date)); 
+    }
+
+    return $queryBuilder->getQuery()->getResult();
+}
+
 }

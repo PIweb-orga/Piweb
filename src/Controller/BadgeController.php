@@ -16,12 +16,24 @@ use Knp\Component\Pager\PaginatorInterface;
 class BadgeController extends AbstractController
 {
     #[Route('/', name: 'app_badge_index', methods: ['GET'])]
-    public function index(BadgeRepository $badgeRepository): Response
+    public function index(Request $request, BadgeRepository $badgeRepository, PaginatorInterface $paginator): Response
     {
+        $query = $badgeRepository->createQueryBuilder('b')
+            ->orderBy('b.datebadge', 'DESC')
+            ->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, // Requête à paginer
+            $request->query->getInt('page', 1), // Numéro de la page, 1 par défaut
+            2 // Nombre d'éléments par page
+        );
+
         return $this->render('badge/index.html.twig', [
-            'badges' => $badgeRepository->findAll(),
+            'badges' => $pagination,
         ]);
     }
+
+
     #[Route('frontbadge/', name: 'app_badge_indexFront', methods: ['GET'])]
     public function indexf(BadgeRepository $badgeRepository): Response
     {
