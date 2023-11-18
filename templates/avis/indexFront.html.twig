@@ -39,6 +39,7 @@
  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_avis_editFront', {'id': avi.id}) }}'">
     edit
 </button>
+<a href="{{ path('download_excel_avis') }}" class="btn btn-primary">Télécharger Avis</a>
 
 
    <td> {{ include('avis/_delete_formFront.html.twig') }}</td>
