@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/badge')]
 class BadgeController extends AbstractController
@@ -49,6 +50,26 @@ class BadgeController extends AbstractController
             'form' => $form,
         ]);
     }
+
+   // public function br(Request $request, PaginatorInterface $paginator): Response
+    // {
+    //     $entityManager = $this->getDoctrine()->getManager();
+    
+    //     $query = $entityManager->getRepository(Badge::class)->createQueryBuilder('b')
+    //         ->orderBy('b.datebadge', 'DESC')
+    //         ->getQuery();
+    
+    //     $pagination = $paginator->paginate(
+    //         $query,
+    //         $request->query->getInt('page', 1),
+    //         10
+    //     );
+    
+    //     return $this->render('badge/index.html.twig', [
+    //         'rap' => $pagination, // Utilisation de 'ppp' au lieu de 'badges'
+    //     ]);
+    // }
+    
     #[Route('/new66', name: 'app_badge_new66', methods: ['GET', 'POST'])]
     public function new66(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -139,4 +160,24 @@ class BadgeController extends AbstractController
 
         return $this->redirectToRoute('app_badge_indexFront', [], Response::HTTP_SEE_OTHER);
     }
+    // YourController.php
+    // public function br(Request $request, PaginatorInterface $paginator): Response
+    // {
+    //     $entityManager = $this->getDoctrine()->getManager();
+    
+    //     $query = $entityManager->getRepository(Badge::class)->createQueryBuilder('b')
+    //         ->orderBy('b.datebadge', 'DESC')
+    //         ->getQuery();
+    
+    //     $pagination = $paginator->paginate(
+    //         $query,
+    //         $request->query->getInt('page', 1),
+    //         10
+    //     );
+    
+    //     return $this->render('badge/index.html.twig', [
+    //         'rap' => $pagination, // Utilisation de 'ppp' au lieu de 'badges'
+    //     ]);
+    // }
+    
 }
