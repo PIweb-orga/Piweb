@@ -6,6 +6,7 @@ use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Avis>
  *
@@ -45,6 +46,15 @@ class AvisRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findByDate(\DateTimeInterface $date)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.dateavis = :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+    }
 
 public function advancedSearchQuery($username, $restaurantName, $date)
 {

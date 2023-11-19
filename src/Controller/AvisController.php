@@ -22,12 +22,21 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class AvisController extends AbstractController
 {
     #[Route('/', name: 'app_avis_index', methods: ['GET'])]
-    public function index(AvisRepository $avisRepository): Response
+    public function index(Request $request, AvisRepository $avisRepository): Response
     {
+        $date = $request->query->get('date');
+    
+        if ($date) {
+            $avis = $avisRepository->findByDate(new \DateTime($date)); // Supposons que vous avez une méthode findByDate dans votre repository
+        } else {
+            $avis = $avisRepository->findAll();
+        }
+    
         return $this->render('avis/index.html.twig', [
-            'avis' => $avisRepository->findAll(),
+            'avis' => $avis,
         ]);
     }
+    
     #[Route('/download/excel/avis', name: 'download_excel_avis')]
     public function downloadExcelFromAvis(EntityManagerInterface $entityManager, FlashBagInterface $flashBag): BinaryFileResponse
     {
