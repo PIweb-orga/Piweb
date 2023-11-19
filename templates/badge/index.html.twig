@@ -6,7 +6,7 @@
     <div class="fils" style="padding-left: 300px;">
         <h1>Badge index</h1>
 
-        <table class="table">
+        <table class="table table-hover">
             <!-- Table Header -->
             <thead>
                 <tr>
@@ -23,16 +23,19 @@
                         <td>{{ badge.commantaire }}</td>
                         <td>{{ badge.datebadge ? badge.datebadge|date('Y-m-d') : '' }}</td>
                         <td>{{ badge.typebadge }}</td>
-                        <td>
-                            <!-- Actions Buttons -->
-                            <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
-                                Show
-                            </button>
-                            <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
-                                Edit
-                            </button>
-                            {{ include('badge/_delete_formFront.html.twig') }}
-                        </td>
+<td>
+    <!-- Actions Buttons -->
+    <div class="button-container">
+        <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
+            Show
+        </button>
+        <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
+            Edit
+        </button>
+    </div>
+    {{ include('badge/_delete_formFront.html.twig') }}
+</td>
+
                     </tr>
                 {% else %}
                     <!-- No Records Found -->
@@ -43,11 +46,10 @@
             </tbody>
         </table>
 
-        <!-- Pagination -->
         
-        <div class="pagination">
+        {# <div class="pagination">
             {{ knp_pagination_render(badges) }}
-        </div>
+        </div> #}
        
 
         <!-- Create New Button -->
@@ -55,4 +57,45 @@
             <button type="submit" class="btn btn-primary">Create new</button>
         </form>
     </div>
+
+    
+      <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+       .button-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; 
+    white-space: nowrap;
+}
+
+
+.button-container button {
+    margin-right: 10px; /* Espacement entre les boutons */
+}
+
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #3498db; /* Bleu */
+            border-radius: 3px;
+            color: #3498db; /* Bleu */
+        }
+
+        .pagination a:hover {
+            background-color: #3498db; /* Bleu au survol */
+            color: #fff; /* Texte blanc au survol */
+        }
+    </style>
+
 {% endblock %}
+
