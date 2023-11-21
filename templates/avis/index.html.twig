@@ -37,9 +37,7 @@
 								<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_avis_show', {'id': avi.id}) }}'">
 									Show
 								</button>
-								<button class="btn btn-warning" onclick="window.location.href='{{ path('app_avis_edit', {'id': avi.id}) }}'">
-									Edit
-								</button>
+								
 								{{ include('avis/_delete_form.html.twig') }}
 							</div>
 						</td>
@@ -49,14 +47,26 @@
 						<td colspan="6">No records found</td>
 					</tr>
 				{% endfor %}
+				{# Importer la bibliothèque Font Awesome pour obtenir un bouton de téléchargement #}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{# Créer un bouton pour déclencher le téléchargement #}
+
+
 			</tbody>
 		</table>
 
-		<!-- Create New Button -->
-		<form method="get" action="{{ path('app_avis_new') }}">
-			<button type="submit" class="btn btn-primary">Create new</button>
-		</form>
+<a href="{{ path('download_excel_avis') }}" class="btn btn-primary">
+    <i class="fas fa-download"></i> Télécharger le fichier Excel
+</a>
+		
 	</div>
+
+
+
+
+
+
 
 	<style>/* Vos styles CSS restent les mêmes comme vous les avez définis pour les badges */
 /* Style pour le champ de date */
