@@ -49,65 +49,52 @@ https://templatemo.com/tm-558-klassy-cafe
     <!-- ***** Header Area Start ***** -->
     
 {% block Header %}
+
     <header class="header-area header-sticky">
+    <div>
         <div class="container">
             <div class="row">
-                <div class="col-12">   
+                <div class="col-12">
+                   
                     {% block sidebar %}
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="{{ asset('Frontend/assets/images/klassy-logo.png') }}" alt="klassy cafe html template">
-                        </a>
+                        
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
+                       <ul class="nav">
+                       
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li><a href="{{path('registration')}}" class="page-scroll">Sign in</a></li>  
-                          <li><a href="#nouvelle-reclamation" class="page-scroll">Reclamation</a></li>
-                          <li><a href="#nouvelle-avis" class="page-scroll">Avis</a></li>
-                          <li><a href="#nouvelle-badge" class="page-scroll">Badge</a></li>
-                        <!-- 
-                            <li class="submenu">
-                                <a href="javascript:;">Drop Down</a>
-                                <ul>
-                                    <li><a href="#">Drop Down Page 1</a></li>
-                                    <li><a href="#">Drop Down Page 2</a></li>
-                                    <li><a href="#">Drop Down Page 3</a></li>
-                                </ul>
-                            </li>
-                        -->
-                            <li><a href="" class="page-scroll">Restaurant</a></li> 
-                            <li><a href="#nouvelle-participant" class="page-scroll">Event</a></li>    
-                            <li><a href="#nouvelle-achat" class="page-scroll">Achat</a></li>  
-                            <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{path('app_logout')}}">
-                                        <i class="bi bi-box-arrow-right"></i>
-                                        <span>Sign Out</span>
-                                    </a>
-                           
-                            {% if app.user !=null %}
+                            <li><a href="{{ path('registration') }}" class="page-scroll">Sign in</a></li>
+                            <li><a href="#nouvelle-reclamation" class="page-scroll">Reclamation</a></li>
+                            <li><a href="#nouvelle-avis" class="page-scroll">Avis</a></li>
+                            <li><a href="#nouvelle-badge" class="page-scroll">Badge</a></li>
+                            <li><a href="#" class="page-scroll">Restaurant</a></li>
+                            <li><a href="#nouvelle-participant" class="page-scroll">Event</a></li>
+                            <li><a href="#nouvelle-achat" class="page-scroll">Achat</a></li>
 
-                                 <span class="d-none d-md-block dropdown-toggle ps-2">{{ app.user.username }}</span>
-                                {% endif %}
-                            </a>
+                            {% if app.user is not null %}
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="{{ path('app_user_edit44', {'iduser': app.user.iduser}) }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ app.user.username }}
+                                        
+                                    </a>
+                            {% endif %}  
                                   
-                            <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
+                                    <div class="dropdown-toggle">
+                                        <a href="{{ path('app_logout') }}" class="page-scroll">logout</a>
+                                    </div>
+                                
                             
-                        </ul>        
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                        
-                    {% endblock  %} 
+                        </ul>
                     </nav>
                 </div>
             </div>
         </div>
     </header>
+{% endblock %}
     <!-- ***** Header Area End ***** -->
-
+{% block section2 %}
     <!-- ***** Main Banner Area Start ***** -->
     <div id="top">
         <div class="container-fluid">
@@ -353,8 +340,11 @@ https://templatemo.com/tm-558-klassy-cafe
         </div>
     </section>
     <!-- ***** Chefs Area Ends ***** -->
+    {% endblock %}
 {% block body %}
 {% endblock %}
+
+{% block section %}
     <!-- ***** Reservation Us Area Starts ***** -->
     <section class="section" id="reservation">
         <div class="container">
@@ -732,8 +722,8 @@ https://templatemo.com/tm-558-klassy-cafe
     <!-- ***** Chefs Area Ends ***** --> 
     
     <!-- ***** Footer Start ***** -->
-    
-    {% block footer%}
+    {% endblock  %}
+    {% block footer %}
     <footer>
         <div class="container">
             <div class="row">

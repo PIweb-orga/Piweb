@@ -9,12 +9,21 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 class UserType extends AbstractType
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -97,8 +106,9 @@ class UserType extends AbstractType
                 'first_options'=>['label'=>'Password'],
                 'second_options'=>['label'=>'Confirm Password']
             ])
-            ;
-        
+            
+            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
+
     }
     
 
@@ -107,5 +117,15 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
+    }
+    public function onPostSubmit(FormEvent $event): void
+    {
+        $form = $event->getForm();
+        $user = $event->getData();
+
+        if ($form->has('password') && $form->get('password')->isSubmitted()) {
+            // Encode the user's password if it has been changed
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+        }
     }
 }

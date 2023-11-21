@@ -6,11 +6,34 @@
 
 
 {% block body %}
+
+
 <div class="fils" style="padding-left: 300px;">
     <!-- Contenu de votre élément -->
 
 
     <h1>User index</h1>
+   {# Search Form #}
+    <form method="get" action="{{ path('app_user_index') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" placeholder="Search users..." value="{{ app.request.query.get('q') }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+ {# Sorting Links #}
+    <div class="mb-3">
+        <strong>Sort by:</strong>
+        <a href="{{ path('app_user_tri', {'criteria': 'iduser'}) }}">ID</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'username'}) }}">Username</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'email'}) }}">Email</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'firstname'}) }}">Firstname</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'lastname'}) }}">Lastname</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'tel'}) }}">Tel</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'address'}) }}">Address</a> |
+        <a href="{{ path('app_user_tri', {'criteria': 'role'}) }}">Role</a>
+    </div>
+
+    <!-- Users Table -->
 
     <table class="table"  >
         <thead>
@@ -65,7 +88,15 @@
     <button type="submit" class="btn btn-primary">Create new</button>
 </form>
 
-</div>{% endblock %}
+   {# Refresh Button (only visible if there is a search query) #}
+{% if app.request.query.get('q') is not empty %}
+    <form method="get" action="{{ path('app_user_index') }}">
+        <button type="submit" class="btn btn-success">Refresh</button>
+    </form>
+{% endif %}
+</div>
+</div>
+{% endblock %}
 
 
 
