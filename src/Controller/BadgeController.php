@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Badge;
+use App\Service\TwilioService;
 use App\Form\BadgeType;
 use App\Repository\BadgeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +24,9 @@ class BadgeController extends AbstractController
             ->getQuery();
 
         $pagination = $paginator->paginate(
-            $query, // Requête à paginer
-            $request->query->getInt('page', 1), // Numéro de la page, 1 par défaut
-            2 // Nombre d'éléments par page
+            $query, 
+            $request->query->getInt('page', 1), 
+            2 
         );
 
         return $this->render('badge/index.html.twig', [
@@ -43,20 +44,25 @@ class BadgeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_badge_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, TwilioService $twilioService): Response
     {
         $badge = new Badge();
         $form = $this->createForm(BadgeType::class, $badge);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $badge-> setDatebadge (new \DateTime());
+            $badge->setDatebadge(new \DateTime());
             $entityManager->persist($badge);
             $entityManager->flush();
-
+        
+            // $to = '+21640994876'; // Static phone number
+            
+            // $message = 'Le Badge est ajouté avec succès'; // Modify the message as needed
+            // $twilioService->sendSMS($to, $message);
+        
             return $this->redirectToRoute('app_badge_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->renderForm('badge/new.html.twig', [
             'badge' => $badge,
             'form' => $form,

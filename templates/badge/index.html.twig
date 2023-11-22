@@ -29,9 +29,10 @@
         <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
             Show
         </button>
-        <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
-            Edit
-        </button>
+      
+      <a class="btn btn-success rounded-pill py-2 px-4" href="{{ path('app_badge_edit', {'id': badge.id}) }}">
+											<i class="bi bi-pencil"></i>
+										</a>
     </div>
     {{ include('badge/_delete_formFront.html.twig') }}
 </td>
@@ -52,10 +53,11 @@
         </div>
        
 
-        <!-- Create New Button -->
-        <form method="get" action="{{ path('app_badge_new') }}">
-            <button type="submit" class="btn btn-primary">Create new</button>
-        </form>
+        
+        <a href="{{ path('app_badge_new') }}" class="btn btn-primary">
+			<i class="bi bi-plus"></i>
+			Ajouter
+		</a>
     </div>
 
     

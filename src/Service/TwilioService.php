@@ -1,5 +1,4 @@
 <?php
-// src/Service/TwilioService.php
 
 namespace App\Service;
 
@@ -7,16 +6,9 @@ use Twilio\Rest\Client;
 
 class TwilioService
 {
-    private $accountSid;
-    private $authToken;
-    private $twilioPhoneNumber;
-
-    public function __construct($accountSid, $authToken, $twilioPhoneNumber)
-    {
-        $this->accountSid = $accountSid;
-        $this->authToken = $authToken;
-        $this->twilioPhoneNumber = $twilioPhoneNumber;
-    }
+    private $accountSid = 'AC5424d814f660f9134be9ea5fbf310cb9';
+    private $authToken = '463dedc0f1fc7280d0e3d0fd46c66ad4';
+    private $twilioPhoneNumber = '+12512921508';
 
     public function sendSMS($to, $body)
     {

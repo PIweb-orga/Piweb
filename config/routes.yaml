@@ -5,3 +5,7 @@
 download_excel_avis:
     path: '/download/excel/avis'
     controller: 'App\Controller\AvisController::downloadExcelFromAvis'
+
+download_pdf:
+    path: '/download/pdf'
+    controller: 'App\Controller\AvisController::downloadPdf'

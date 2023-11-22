@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Avis index
+
 {% endblock %}
 
 {% block body %}
-	<div class="fils" style="padding-left: 300px;">
 
+
+	<div class="fils" style="padding-left: 300px;">
+</br></br></br>
 		<h1>Avis index</h1>
+{% include 'avis/flash_messages.html.twig' %}
 
 		<form method="get" action="{{ path('app_avis_index') }}">
 			<input type="date" name="date">
@@ -25,7 +29,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for avi in avis %}
+				{% for avi in av %}
 					<tr>
 						<td>{{ avi.user.username }}</td>
 						<td>{{ avi.titreavis }}</td>
@@ -34,10 +38,12 @@
 						<td>{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</td>
 						<td>
 							<div class="button-container">
-								<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_avis_show', {'id': avi.id}) }}'">
+								{# <button class="fas fa-eye" onclick="window.location.href='{{ path('app_avis_show', {'id': avi.id}) }}'">
 									Show
-								</button>
-								
+								</button> #}
+								<a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-success rounded-pill py-2 px-4">
+									<i class="fas fa-eye"></i></a>
+
 								{{ include('avis/_delete_form.html.twig') }}
 							</div>
 						</td>
@@ -47,51 +53,90 @@
 						<td colspan="6">No records found</td>
 					</tr>
 				{% endfor %}
-				{# Importer la bibliothèque Font Awesome pour obtenir un bouton de téléchargement #}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-{# Créer un bouton pour déclencher le téléchargement #}
 
 
 			</tbody>
 		</table>
+			<div class="pagination">
+            {{ knp_pagination_render(av) }}
+        </div>
+       
+		<a href="{{ path('download_excel_avis') }}" class="btn btn-primary">
+			<i class="fas fa-download"></i>
+			Télécharger le fichier Excel
+		</a>
 
-<a href="{{ path('download_excel_avis') }}" class="btn btn-primary">
-    <i class="fas fa-download"></i> Télécharger le fichier Excel
-</a>
-		
 	</div>
 
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
+	<style>
+		/* Vos styles CSS restent les mêmes comme vous les avez définis pour les badges */
+		/* Style pour le champ de date */
+		input[type="date"] {
+			padding: 0.5rem; /* Ajoute un peu d'espace autour du champ */
+			border: 1px solid #ccc; /* Ajoute une bordure */
+			border-radius: 4px; /* Arrondit les coins */
+			font-size: 1rem; /* Taille de police */
+			/* Ajoutez d'autres styles selon vos préférences */
+		}
+
+		/* Pour changer le style du sélecteur de date (si nécessaire) */
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			;
+			/* Styles spécifiques pour les navigateurs WebKit (comme Chrome) */
+			/* Vous pouvez personnaliser l'apparence de l'icône du calendrier ici */
+		}
+
+		/* Pour cibler le champ de recherche */
+		.form-outline input[type="search"] {
+			;
+			/* Ajoutez vos styles pour le champ de recherche ici */
+		}
+
+		/* Styles pour le bouton de recherche */
+		#search-button {
+			;
+			/* Ajoutez vos styles pour le bouton de recherche ici */
+		}
 
 
+		        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
 
-	<style>/* Vos styles CSS restent les mêmes comme vous les avez définis pour les badges */
-/* Style pour le champ de date */
-input[type="date"] {
-  padding: 0.5rem; /* Ajoute un peu d'espace autour du champ */
-  border: 1px solid #ccc; /* Ajoute une bordure */
-  border-radius: 4px; /* Arrondit les coins */
-  font-size: 1rem; /* Taille de police */
-  /* Ajoutez d'autres styles selon vos préférences */
+        .pagination li {
+            margin: 0 5px;
+        }
+
+       .button-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; 
+    white-space: nowrap;
 }
 
-/* Pour changer le style du sélecteur de date (si nécessaire) */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  /* Styles spécifiques pour les navigateurs WebKit (comme Chrome) */
-  /* Vous pouvez personnaliser l'apparence de l'icône du calendrier ici */
+
+.button-container button {
+    margin-right: 10px; /* Espacement entre les boutons */
 }
 
-/* Pour cibler le champ de recherche */
-.form-outline input[type="search"] {
-  /* Ajoutez vos styles pour le champ de recherche ici */
-}
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #3498db; /* Bleu */
+            border-radius: 3px;
+            color: #3498db; /* Bleu */
+        }
 
-/* Styles pour le bouton de recherche */
-#search-button {
-  /* Ajoutez vos styles pour le bouton de recherche ici */
-}
-    </style>
+        .pagination a:hover {
+            background-color: #3498db; /* Bleu au survol */
+            color: #fff; /* Texte blanc au survol */
+        }
+	</style>
 {% endblock %}

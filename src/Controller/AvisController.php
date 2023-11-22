@@ -16,73 +16,75 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Knp\Component\Pager\PaginatorInterface;
+use Dompdf\Dompdf;
+
 
 
 #[Route('/avis')]
 class AvisController extends AbstractController
 {
     #[Route('/', name: 'app_avis_index', methods: ['GET'])]
-    public function index(Request $request, AvisRepository $avisRepository): Response
+    public function index(Request $request, AvisRepository $avisRepository, PaginatorInterface $paginator): Response
     {
         $date = $request->query->get('date');
+        $query = $date ? $avisRepository->findByDate(new \DateTime($date)) : $avisRepository->findAll();
     
-        if ($date) {
-            $avis = $avisRepository->findByDate(new \DateTime($date)); // Supposons que vous avez une méthode findByDate dans votre repository
-        } else {
-            $avis = $avisRepository->findAll();
-        }
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            2
+        );
     
         return $this->render('avis/index.html.twig', [
-            'avis' => $avis,
+            'av' => $pagination,
         ]);
     }
+    
     
     #[Route('/download/excel/avis', name: 'download_excel_avis')]
     public function downloadExcelFromAvis(EntityManagerInterface $entityManager, FlashBagInterface $flashBag): BinaryFileResponse
     {
-        // Récupérer les données de la table "avis" depuis la base de données
+        
         $avisRepository = $entityManager->getRepository(Avis::class);
         $avisData = $avisRepository->findAll(); // Vous pouvez adapter cette requête selon vos besoins
             
-        // Définir le chemin du répertoire où le fichier sera enregistré
+        
         $directoryPath = 'C:\Users\Ltifi\Downloads\last vers\ihebiheb\Piweb-ihebevent\Piweb';
     
-        // Vérifier si le répertoire existe, sinon le créer
+       
         if (!is_dir($directoryPath)) {
-            mkdir($directoryPath, 0777, true); // Créer le répertoire avec les permissions nécessaires
+            mkdir($directoryPath, 0777, true); 
         }
     
-        // Définir le chemin complet du fichier Excel
         $filePath = $directoryPath . '\fichier_excel_avis.xlsx';
     
-        // Créer un écrivain (writer) pour le fichier Excel
         $writer = WriterEntityFactory::createXLSXWriter();
     
-        // Vérifier si le fichier existe déjà
         if (!file_exists($filePath)) {
-            // Créer un tableau avec les titres des colonnes
+           
             $columnTitles = [
                 ['ID', 'Username', 'Titre avis', 'Pub avis', 'Date avis', 'Pub avis', 'Nom restaurant'],
             ];
         
-            // Ouvrir le fichier uniquement s'il n'existe pas déjà
+           
             $writer->openToFile($filePath);
             
             foreach ($columnTitles as $columnRow) {
-                // Créer une ligne avec les titres de colonnes
+               
                 $titleRow = WriterEntityFactory::createRowFromArray($columnRow);
-                $writer->addRow($titleRow); // Ajouter la ligne des titres de colonnes
+                $writer->addRow($titleRow); 
                
             }
             foreach ($avisData as $avis) {
-                // Adapter ces lignes en fonction des propriétés de votre entité Avis
+                
                 $row = [
                     $avis->getId(),
                     $avis->getUser()->getUsername(),
                     $avis->getTitreavis(),
                     $avis->getPubavis(),
                     $avis->getDateavis()->format('Y-m-d'),
-                    $avis->getPubavis(), // Vérifiez si c'est la bonne propriété
+                    $avis->getPubavis(), 
                     $avis->getRestaurant()->getNom(),
                 ];
         
@@ -90,7 +92,6 @@ class AvisController extends AbstractController
                 $writer->addRow($rowEntity);
             }
         
-            // Fermer le fichier Excel
             $writer->close();
         }
         if (file_exists($filePath)) {
@@ -205,11 +206,13 @@ class AvisController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$avi->getId(), $request->request->get('_token'))) {
             $entityManager->remove($avi);
+            $this->addFlash('success', 'L\'avis a été supprimée avec succès.');
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('back/{id}', name: 'app_avis_deleteFront', methods: ['POST'])]
     public function deletef(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
     {
