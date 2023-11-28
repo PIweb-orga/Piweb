@@ -339,7 +339,7 @@
                     <!-- ======= End Participant ======= -->
 
                     <!-- ======= plat ======= -->
-                        <a class="nav-link collapsed"  href="{{ path('app_plat_index') }}">
+                        <a class="nav-link collapsed"  href="{{ path('app_plat_index_back') }}">
                             <i class="bi bi-journal-text"></i><span>Plat</span>
                         </a>
                         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -417,9 +417,10 @@
                         </a>
                         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                             <li>
-                                <a href="charts-chartjs.html">
-                                    <i class="bi bi-circle"></i><span>Chart.js</span>
+                                <a href="{{ path('app_stats_plats_par_categorie') }}">
+                                    <i class="bi bi-circle"></i><span>Statistiques</span>
                                 </a>
+                                
                             </li>
                             <li>
                                 <a href="charts-apexcharts.html">

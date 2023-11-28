@@ -14,28 +14,28 @@ class User
     private ?int $iduser = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $username = null;
+    private ?string $username = '';
 
     #[ORM\Column(length: 300)]
-    private ?string $email = null;
+    private ?string $email = '';
 
     #[ORM\Column(length: 300)]
-    private ?string $password = null;
+    private ?string $password = '';
 
     #[ORM\Column(length: 30)]
-    private ?string $firstname = null;
+    private ?string $firstname = '';
 
     #[ORM\Column(length: 30)]
-    private ?string $lastname = null;
+    private ?string $lastname = '';
 
     #[ORM\Column(nullable: true, length: 20)]
-    private ?string $tel = null;
+    private ?string $tel = '';
 
     #[ORM\Column(nullable: true, length: 300)]
-    private ?string $address = null;
+    private ?string $address = '';
 
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $role = null;
+    private ?string $role = '';
 
     public function getIduser(): ?int
     {

@@ -45,4 +45,48 @@ class PlatRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+public function findByCategory($category)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.categorie = :category')
+        ->setParameter('category', $category)
+        ->getQuery()
+        ->getResult();
+}
+
+public function findEntitiesByString($str){
+    return $this->getEntityManager()
+        ->createQuery(
+            'SELECT p
+            FROM App\Entity\Plat p
+            WHERE p.nom LIKE :str 
+            OR p.categorie LIKE :str 
+            OR p.prix LIKE :str'
+        )
+        ->setParameter('str', '%'.$str.'%')
+        ->getResult();
+}
+
+public function findByPriceRange($minPrice, $maxPrice)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.prix >= :minPrice')
+        ->andWhere('p.prix <= :maxPrice')
+        ->setParameter('minPrice', $minPrice)
+        ->setParameter('maxPrice', $maxPrice)
+        ->getQuery()
+        ->getResult();
+}
+
+public function findByNom($nom)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.nom LIKE :nom')
+        ->setParameter('nom', '%' . $nom . '%')
+        ->getQuery()
+        ->getResult();
+}
+
 }
