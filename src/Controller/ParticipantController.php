@@ -7,11 +7,25 @@ use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\EvennementRepository;
 use App\Repository\ParticipantRepository;
+use App\Service\Twilioiheb;
+use App\Service\TwilioService;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Picqer\Barcode\BarcodeGeneratorHTML;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
+
+
+
+
+
 
 #[Route('/participant')]
 class ParticipantController extends AbstractController
@@ -23,6 +37,87 @@ class ParticipantController extends AbstractController
             'participants' => $participantRepository->findAll(),
         ]);
     }
+
+
+    #[Route('/{idevent}/barcode', name: 'barcode')]
+    public function generateBarcode(EvennementRepository $repo, int $idevent): Response
+    {
+        $evenement = $this->getDoctrine()->getRepository(Evennement::class)->findOneBy(['idevent' => $idevent]);
+        $generator = new BarcodeGeneratorHTML();
+        $barcodeContent = strtoupper($evenement->getTitre()) . "-" . strtoupper($evenement->getDescription()) . "-" . strtoupper($evenement->getLieu()) . "-" . strtoupper($evenement->getAdresse());
+        $barcode = $generator->getBarcode($barcodeContent, $generator::TYPE_CODE_39);
+        return $this->render('participant/testBarcode.html.twig', [
+            'barcode' => $barcode,
+        ]);
+    }
+
+
+    #[Route('/stats', name: 'stats')]
+    public function stat(EvennementRepository $evennementRepository)
+    {
+        $evenements = $evennementRepository->findAll();
+        $lieuxCount = [];
+    
+        foreach ($evenements as $eve) {
+            $lieu = strtolower($eve->getLieu()); // Normaliser la casse (tout en minuscules)
+    
+            if (isset($lieuxCount[$lieu])) {
+                $lieuxCount[$lieu]++;
+            } else {
+                $lieuxCount[$lieu] = 1;
+            }
+        }
+    
+        $lieuData = [];
+        foreach ($lieuxCount as $lieu => $count) {
+            $lieuData[] = ['lieu' => $lieu, 'nombre' => $count];
+        }
+    
+        return $this->render('participant/stats.html.twig', [
+            'lieuData' => json_encode($lieuData),
+        ]);
+    }
+    
+    
+
+
+
+#[Route('/generateExcel', name: 'excel')]
+public function generateExcel(EvennementRepository $evepo): BinaryFileResponse
+{
+    $evenements = $evepo->findAll();
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A1', 'Titre');
+    $sheet->setCellValue('B1', 'Addresse');
+    $sheet->setCellValue('C1', 'Lieu');
+    $sheet->setCellValue('D1', 'Description');
+
+    $sn = 1;
+    foreach ($evenements as $p) {
+        $sheet->setCellValue('A' . $sn, $p->getTitre());
+        $sheet->setCellValue('B' . $sn, $p->getAdresse());
+        $sheet->setCellValue('C' . $sn, $p->getLieu());
+        $sheet->setCellValue('D' . $sn, $p->getDescription());
+
+        $sn++;
+    }
+
+    $writer = new Xlsx($spreadsheet);
+
+    $fileName = 'evenements.xlsx';
+    $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+    $writer->save($temp_file);
+
+    return new BinaryFileResponse($temp_file, 200, [
+        'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition' => sprintf('inline; filename="%s"', $fileName),
+    ]);
+}
+    
+
+
 
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -68,28 +163,47 @@ public function new22(Request $request, EntityManagerInterface $entityManager): 
     ]);
 }
 #[Route('/{idevent}/new222', name: 'app_participant_new222', methods: ['GET', 'POST'])]
-public function new222(Request $request, EntityManagerInterface $entityManager, EvennementRepository $eventRepository,int $idevent): Response
+public function new222(Request $request, EntityManagerInterface $entityManager, EvennementRepository $eventRepository,int $idevent, Twilioiheb $twilioService): Response
 {
     $participant = new Participant();
-    
-    $form = $this->createForm(ParticipantType::class, $participant);
-    $form->handleRequest($request);
-   
+
     // Fetch the events from the repository
     $eventRepository = $entityManager->getRepository(Evennement::class);
     $evennements = $eventRepository->findAll();
-    $Event=$eventRepository->find($idevent);
+    $Event = $eventRepository->findOneBy(['idevent' => $idevent]);
+
+    // Check if the event is not null before accessing its properties
+    if ($Event) {
+        // Set default values for the form fields
+        $participant->setEvent($Event);
+
+        // Create the form with the participant data
+        $form = $this->createForm(ParticipantType::class, $participant);
+    } else {
+        // Handle the case where the event is not found
+        // You may want to throw an exception or handle it according to your needs
+        // For now, creating an empty form
+        $form = $this->createForm(ParticipantType::class, $participant);
+    }
+
+    $form->handleRequest($request);
+
     if ($form->isSubmitted() && $form->isValid()) {
+        // Handle form submission
         $evennement = $participant->getEvent();
         $entityManager->persist($participant);
         $entityManager->flush();
+        $to = '+21650163556';
+        $message = 'Le participant est ajouté avec succès';
+        $twilioService->sendSMS($to, $message);
+        return $this->redirectToRoute('app_participant_index');
     }
 
-    return $this->renderForm('participant/newfront.html.twig', [
+    return $this->render('participant/newfront.html.twig', [
         'participant' => $participant,
-        'form' => $form,
+        'form' => $form->createView(),
         'Event' => $Event,
-        'evennement' => $evennements, // Pass the events to the template
+        'evennement' => $evennements,
     ]);
 }
 
@@ -129,5 +243,33 @@ public function new222(Request $request, EntityManagerInterface $entityManager, 
         }
 
         return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{idparticipant}/generateQR', name: 'generate_qr', methods: ['GET'])]
+    public function generateQR(Participant $participant): Response
+    {
+        // Concatenate participant data for QR code
+        $participantData = sprintf(
+            "ID: %s\nDate: %s\nNumero: %s\nEvent: %s\nUser: %s\n",
+            $participant->getIdparticipant(),
+            $participant->getDatepar()->format('Y-m-d'),
+            $participant->getNumero(),
+            $participant->getEvent()->getTitle(), // Adjust accordingly
+            $participant->getUser()->getUsername() // Adjust accordingly
+        );
+
+        // Generate QR code
+        $qrCode = new QrCode($participantData);
+
+        // Save QR code as PNG
+        $pngResult = new PngWriter();
+        $pngResult->write($qrCode);
+
+        // Convert PNG to base64 for rendering in Twig
+        $qrCodeImage = base64_encode($pngResult->getString());
+
+        return $this->render('participant/generate_qr.html.twig', [
+            'participant' => $participant,
+            'qrCodeImage' => $qrCodeImage,
+        ]);
     }
 }

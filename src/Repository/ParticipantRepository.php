@@ -58,4 +58,18 @@ public function findParticipantsDetailsByEvent2($idevent): array
 
     return $query->getResult();
 }
+public function countParticipantsByEvennement(int $idevent): array
+{
+    $entityManager = $this->getEntityManager();
+
+    $query = $entityManager->createQuery(
+        'SELECT COUNT(p.idparticipant) as count_participants
+        FROM App\Entity\Participant p
+        WHERE p.event = :idevent'
+    )->setParameter('idevent', $idevent);
+
+    return $query->getResult();
 }
+}
+
+
