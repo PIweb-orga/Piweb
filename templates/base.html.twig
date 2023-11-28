@@ -11,7 +11,12 @@
             <!-- Google Fonts -->
             <link href="https://fonts.gstatic.com" rel="preconnect">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+<!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('Backend/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
             <!-- Vendor CSS Files -->
             <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
             <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
@@ -307,6 +312,12 @@
                     </li>
 
                     <!-- ======= End Avis ======= -->
+                        <a class="nav-link collapsed"  href="{{ path('badge_stats') }}">
+                            <i class="bi bi-journal-text"></i><span> Stat Badge</span>
+                        </a>
+                        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        </ul>
+                    </li>
                       <!-- ======= Badge ======= -->
                         <a class="nav-link collapsed"  href="{{ path('app_badge_index') }}">
                             <i class="bi bi-journal-text"></i><span>Badge</span>

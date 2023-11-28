@@ -6,9 +6,13 @@ use App\Repository\RestaurantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
+
+
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
 class Restaurant
 {
+    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

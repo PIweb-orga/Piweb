@@ -8,11 +8,17 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "box/spout": "^3.3",
+        "cmen/google-charts-bundle": "^5.0",
+        "consoletvs/profanity": "^3.3",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",
+        "dompdf/dompdf": "^2.0",
+        "endroid/qr-code": "^5.0",
         "knplabs/knp-paginator-bundle": "^5.9",
+        "koolreport/core": "^6.2",
+        "php-flasher/flasher-symfony": "^1.15",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
         "sensio/framework-extra-bundle": "^6.2",
@@ -24,6 +30,7 @@
         "symfony/flex": "^1.17|^2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/google-mailer": "5.4.*",
         "symfony/http-client": "5.4.*",
         "symfony/intl": "5.4.*",
         "symfony/mailer": "5.4.*",
@@ -44,7 +51,8 @@
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "twilio/sdk": "^7.12"
+        "twilio/sdk": "^7.12",
+        "ultramsg/whatsapp-php-sdk": "^2.0"
     },
     "config": {
         "allow-plugins": {

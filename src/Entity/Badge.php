@@ -5,7 +5,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BadgeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: BadgeRepository::class)]
 class Badge
@@ -36,6 +39,7 @@ class Badge
     #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
     private ?Restaurant $restaurant = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -100,6 +104,49 @@ class Badge
 
         return $this;
     }
+
+    #[ORM\Column]
+    private ?int $likes = 0;
+   
+
+    #[ORM\Column]
+    private ?int $dislikes = 0;
+
+    public function getLikes(): int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(int $likes): void
+    {
+        $this->likes = $likes;
+    }
+
+    public function getDislikes(): int
+    {
+        return $this->dislikes;
+    }
+
+    public function setDislikes(int $dislikes): void
+    {
+        $this->dislikes = $dislikes;
+    }
+
+    public function incrementLikes(): void
+    {
+        $this->likes++;
+    }
+
+    public function incrementDislikes(): void
+    {
+        $this->dislikes++;
+    }
+    public function checkAndDeleteIfRequired(): bool
+    {
+        return $this->dislikes - $this->likes >= 5;
+    }
+
+
 
 
 

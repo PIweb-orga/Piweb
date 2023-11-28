@@ -41,7 +41,9 @@ class Avis
     #[Assert\NotBlank(message: 'Le champ restaurant ne peut pas être vide')]
     private ?Restaurant $restaurant = null;
 
-    
+    #[ORM\Column]
+    private ?int $nbvue = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,5 +113,16 @@ class Avis
         return $this;
     }
 
+    public function getNbVue(): ?int
+    {
+        return $this->nbvue;
+    }
+
+    public function setNbVue(?int $nbvue): self
+    {
+        $this->nbvue = $nbvue;
+
+        return $this;
+    }
 
 }
