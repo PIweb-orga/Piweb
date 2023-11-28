@@ -1,0 +1,6 @@
+framework:
+  notifier:
+    chatter_transports:
+    texter_transports:
+      twilio_sms: "twilio://AC2eb2c8a866ca28cc41a4c86e365022d4:96b0570df3d033cc32cdd6b1f9456489@default?from=+17067527070"
+    

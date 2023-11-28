@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant
+{% endblock %}
+
+{% block body %}
+	<div class="fils" style="padding-left: 300px;">
+		<h1>Restaurant show</h1>
+		<div class="page-wrapper my-5">
+			<div class="container-fluid" id="container-wrapper">
+				<div class="card p-3">
+					<div class="row">
+						<a class="col-1 text-info" href="{{ path('app_restaurant_index') }}">back</a>
+						<h5 class="col-8 text-gray-800 pl-3">
+							Restaurant
+						</h5>
+
+						<a class="col-2 btn btn-success " href="{{ path('app_restaurant_pdf', {'id_restau': restaurant.idRestau})}}">
+							Exporter pdf
+						</a>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-lg-12">
+						<div class="card p-3">
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>IdRestau</th>
+										<td>{{ restaurant.idRestau }}</td>
+									</tr>
+									<tr>
+										<th>Nom</th>
+										<td>{{ restaurant.nom }}</td>
+									</tr>
+									<tr>
+										<th>Location</th>
+										<td>{{ restaurant.location }}</td>
+									</tr>
+								</tbody>
+							</table>
+
+
+							<a class=" col-2 btn btn-warning  my-2" href="{{ path('app_restaurant_edit', {'id_restau': restaurant.idRestau}) }}">edit</a>
+
+							{{ include('restaurant/_delete_form.html.twig') }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

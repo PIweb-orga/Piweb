@@ -1,0 +1,40 @@
+{# templates/restaurant/_form.html.twig #}
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}
+) }}
+
+<div class="fils">
+	<div class="row">
+
+		<div class="col-md-6">
+
+
+			<div class="mb-3">
+				{{ form_label(form.nom, 'nom', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'nom'}}) }}
+				 {% if form_errors(form.nom) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.nom) }}
+                    </div>
+                {% endif %}
+				{{ form_label(form.location, 'Location', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.location, {'attr': {'class': 'form-control', 'placeholder': 'Location'}}) }}
+				{% if form_errors(form.location) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.location) }}
+                    </div>
+                {% endif %}
+
+			</div>
+		</div>
+
+		<div
+			class="col-md-6">{# Add additional styling or form elements here if needed #}
+		</div>
+	</div>
+
+	<div class="mt-3">
+		<button type="submit" class="col-2 btn btn-success">Save</button>
+	</div>
+</div>
+
+{{ form_end(form) }}
