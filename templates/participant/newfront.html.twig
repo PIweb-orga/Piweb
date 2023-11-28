@@ -44,24 +44,8 @@
                                         <div class="col-lg-6">
                                             <div class="row">
                                                 <div class="right-list">
-                                                 {% for evennements in evennement %}
-                                                    <div class="col-lg-12">
-                                                        <div class="tab-item">
-                                                            <img src="Front/images/tab-item-04.png" alt="">
-                                                            <img src="{{asset('eventimages/' ~ evennements.img)}}" style="height:100px;"</img>
-                                                            {{ evennements.img }}</td>
-                                                            <h4>{{ evennements.titre }}</h4>
-                                                            <p>{{ evennements.description }}</p>
-                                                            <div class="price">
-                                                                <h6>{{ evennements.date ? evennements.date|date('Y-m-d') : '' }}</h6>
-                                                                <a href="{{ path('app_participant_new222', {'idevent': evennements.idevent})  }}">create participant</a>
-                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                      {% endfor %}
-                                                 
-                                                 
+                                                
+                                            
                                                 </div>
                                             </div>
                                         </div>
@@ -230,6 +214,11 @@
     </section>
 
 
-    
+    <h1>Create new Participant</h1>
+<img src="{{ asset('path/to/qrcodes/qrcode_' ~ participant.idparticipant ~ '.png') }}" alt="QR Code">
+
+        {{ include('participant/_form.html.twig') }}
+        
+    <a href="{{ path('app_participant_index') }}">back to list</a>
 {% endblock %}
 

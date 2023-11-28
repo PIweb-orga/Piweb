@@ -33,7 +33,7 @@
                 <td>{{ evennement.adresse }}</td>
                 <td>
 
-
+                <a class="btn btn-success" href="{{ path('pdf') }}">Create pdf</a>
 
                 <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_evennement_show', {'idevent': evennement.idevent}) }}'">
     Show

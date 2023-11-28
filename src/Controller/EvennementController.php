@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Evennement;
 use App\Form\EvennementType;
 use App\Repository\EvennementRepository;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class EvennementController extends AbstractController
 {
     #[Route('/', name: 'app_evennement_index', methods: ['GET'])]
     public function index(EvennementRepository $evennementRepository): Response
-    {
+    {   
         return $this->render('evennement/index.html.twig', [
             'evennements' => $evennementRepository->findAll(),
         ]);
@@ -33,7 +34,7 @@ class EvennementController extends AbstractController
             /** @var UploadedFile $file */
             $file = $form->get('img')->getData();
     
-            // If a file was uploaded
+           
             if ($file) {
                 $filename = uniqid() . '.' . $file->guessExtension();
     
@@ -43,8 +44,7 @@ class EvennementController extends AbstractController
                     $filename
                 );
     
-                // Update the 'img' property to store the image file name
-                // instead of its contents
+               
                 $evennement->setImg($filename);
             }
     
@@ -61,10 +61,12 @@ class EvennementController extends AbstractController
     }
 
     #[Route('/{idevent}', name: 'app_evennement_show', methods: ['GET'])]
-    public function show(Evennement $evennement): Response
-    {
+    public function show(Evennement $evennement,ParticipantRepository $Rep,int $idevent): Response
+    {   $Listparticipants = $Rep->findParticipantsDetailsByEvent2($idevent);
+      
         return $this->render('evennement/show.html.twig', [
             'evennement' => $evennement,
+            'Listparticipants' => $Listparticipants,
         ]);
     }
 

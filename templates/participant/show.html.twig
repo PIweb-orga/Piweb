@@ -27,4 +27,5 @@
     <a href="{{ path('app_participant_edit', {'idparticipant': participant.idparticipant}) }}">edit</a>
 
     {{ include('participant/_delete_form.html.twig') }}
+    <a class="btn btn-success" href="{{ path('pdf') }}">Create pdf</a>
 {% endblock %}

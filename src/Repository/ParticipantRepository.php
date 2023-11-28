@@ -45,4 +45,17 @@ class ParticipantRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findParticipantsDetailsByEvent2($idevent): array
+{
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery(
+        'SELECT u.iduser, u.username, p.numero 
+        FROM App\Entity\Participant p
+        JOIN App\Entity\User u WITH p.user = u.iduser 
+        WHERE p.event = :idevent'
+    )->setParameters(['idevent' => $idevent]);
+
+    return $query->getResult();
+}
 }
