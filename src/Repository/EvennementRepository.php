@@ -20,8 +20,6 @@ class EvennementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Evennement::class);
     }
-   
-    
 
 //    /**
 //     * @return Evennement[] Returns an array of Evennement objects
@@ -55,8 +53,4 @@ public function advancedSearch(string $query): array
             ->getQuery()
             ->getResult();
     }
-    
-    
-    
 }
-

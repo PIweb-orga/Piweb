@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Picqer\Barcode\BarcodeGeneratorHTML;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
-
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 
 
@@ -38,6 +36,8 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+
+  
 
     #[Route('/{idevent}/barcode', name: 'barcode')]
     public function generateBarcode(EvennementRepository $repo, int $idevent): Response
@@ -167,37 +167,37 @@ public function new222(Request $request, EntityManagerInterface $entityManager, 
 {
     $participant = new Participant();
 
-    // Fetch the events from the repository
+   
     $eventRepository = $entityManager->getRepository(Evennement::class);
     $evennements = $eventRepository->findAll();
     $Event = $eventRepository->findOneBy(['idevent' => $idevent]);
 
-    // Check if the event is not null before accessing its properties
+   
     if ($Event) {
-        // Set default values for the form fields
+       
         $participant->setEvent($Event);
 
-        // Create the form with the participant data
+       
         $form = $this->createForm(ParticipantType::class, $participant);
     } else {
-        // Handle the case where the event is not found
-        // You may want to throw an exception or handle it according to your needs
-        // For now, creating an empty form
+     
         $form = $this->createForm(ParticipantType::class, $participant);
     }
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Handle form submission
+      
         $evennement = $participant->getEvent();
         $entityManager->persist($participant);
         $entityManager->flush();
         $to = '+21650163556';
-        $message = 'Le participant est ajouté avec succès';
+        $message = 'un participant est ajouté avec succès';
         $twilioService->sendSMS($to, $message);
-        return $this->redirectToRoute('app_participant_index');
+        $this->addFlash('success', 'Le Participant  a été ajouté a l èvent avec succès.');
+        return $this->redirectToRoute('app_participant_new22');
     }
+    
 
     return $this->render('participant/newfront.html.twig', [
         'participant' => $participant,
@@ -243,33 +243,5 @@ public function new222(Request $request, EntityManagerInterface $entityManager, 
         }
 
         return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
-    }
-    #[Route('/{idparticipant}/generateQR', name: 'generate_qr', methods: ['GET'])]
-    public function generateQR(Participant $participant): Response
-    {
-        // Concatenate participant data for QR code
-        $participantData = sprintf(
-            "ID: %s\nDate: %s\nNumero: %s\nEvent: %s\nUser: %s\n",
-            $participant->getIdparticipant(),
-            $participant->getDatepar()->format('Y-m-d'),
-            $participant->getNumero(),
-            $participant->getEvent()->getTitle(), // Adjust accordingly
-            $participant->getUser()->getUsername() // Adjust accordingly
-        );
-
-        // Generate QR code
-        $qrCode = new QrCode($participantData);
-
-        // Save QR code as PNG
-        $pngResult = new PngWriter();
-        $pngResult->write($qrCode);
-
-        // Convert PNG to base64 for rendering in Twig
-        $qrCodeImage = base64_encode($pngResult->getString());
-
-        return $this->render('participant/generate_qr.html.twig', [
-            'participant' => $participant,
-            'qrCodeImage' => $qrCodeImage,
-        ]);
     }
 }

@@ -21,19 +21,19 @@ class EvennementController extends AbstractController
     #[Route('/', name: 'app_evennement_index', methods: ['GET'])]
 public function index(Request $request, EvennementRepository $evennementRepository): Response
 {
-    // Get the search query from the request
+    
     $searchQuery = $request->query->get('q');
 
-    // Check if a search query is provided
+    
     if ($searchQuery) {
-        // Use the advancedSearch method if a search query is provided
+     
         $evennements = $evennementRepository->advancedSearch($searchQuery);
     } else {
-        // Use findAll if no search query is provided
+        
         $evennements = $evennementRepository->findAll();
     }
 
-    // Render the evennement/index.html.twig template with the evennements data
+    
     return $this->render('evennement/index.html.twig', [
         'evennements' => $evennements,
     ]);
@@ -56,7 +56,7 @@ public function index(Request $request, EvennementRepository $evennementReposito
             if ($file) {
                 $filename = uniqid() . '.' . $file->guessExtension();
     
-                // Move the file to the directory where event images are stored
+     
                 $file->move(
                     'eventimages',
                     $filename
@@ -89,10 +89,9 @@ public function index(Request $request, EvennementRepository $evennementReposito
         return $this->render('evennement/show.html.twig', [
             'evennement' => $evennement,
             'countParticipants' => $count,
-            'Listparticipants' => $listParticipants, // Assurez-vous que cette ligne est correcte
+            'Listparticipants' => $listParticipants, 
         ]);
     }
-    
 
     #[Route('/{idevent}/edit', name: 'app_evennement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Evennement $evennement, EntityManagerInterface $entityManager): Response
@@ -140,7 +139,6 @@ public function index(Request $request, EvennementRepository $evennementReposito
 
         return new Response($html);
     }
-    
     
 }
       

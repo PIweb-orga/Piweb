@@ -55,7 +55,6 @@ public function findParticipantsDetailsByEvent2($idevent): array
         JOIN App\Entity\User u WITH p.user = u.iduser 
         WHERE p.event = :idevent'
     )->setParameters(['idevent' => $idevent]);
-
     return $query->getResult();
 }
 public function countParticipantsByEvennement(int $idevent): array
@@ -70,6 +69,5 @@ public function countParticipantsByEvennement(int $idevent): array
 
     return $query->getResult();
 }
+
 }
-
-
