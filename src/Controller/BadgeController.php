@@ -29,6 +29,112 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 #[Route('/badge')]
 class BadgeController extends AbstractController
 {
+
+    #[Route('/pdf', name: 'pdf', methods: ['GET'])]
+    public function index_pdf(BadgeRepository $badgeRepository, Request $request): Response
+    {
+        // Récupération du type de badge sélectionné à partir de la requête
+        $badgeType = $request->query->get('badgeType');
+    
+        // Vérification si le type de badge est sélectionné
+        if ($badgeType !== null && $badgeType !== 'All') {
+            // Récupération des badges selon le type sélectionné
+            $badges = $badgeRepository->findBy(['typebadge' => $badgeType]);
+            $dompdf = new Dompdf();
+    
+        // Chemin vers votre image
+        $imagePath = $this->getParameter('kernel.project_dir') . '/public/assets/img/logo.png';
+    
+        // Encodez l'image en base64
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+    
+        // Génération du HTML à partir du template Twig 'badge/Badge_pdf.html.twig' en passant la liste des badges et l'image
+        $html = $this->renderView('badge/' . $badgeType . '_pdf.html.twig', [
+            'badges' => $badges,
+            'imagePath' => $imageSrc,
+        ]);
+    
+        // Récupération des options de Dompdf et activation du chargement des ressources à distance
+        $options = $dompdf->getOptions();
+        $options->set([
+            'isHtml5ParserEnabled' => true,
+            'isPhpEnabled' => true,  // Activer le rendu PHP
+        ]);
+    
+        $dompdf->setOptions($options);
+    
+        // Chargement du HTML généré dans Dompdf
+        $dompdf->loadHtml($html);
+    
+        // Configuration du format de la page en A4 en mode portrait
+        $dompdf->setPaper('A4', 'portrait');
+    
+        // Génération du PDF
+        $dompdf->render();
+    
+        // Récupération du contenu du PDF généré
+        $output = $dompdf->output();
+    
+        // Configuration des en-têtes pour le téléchargement du PDF
+        $response = new Response($output, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="liste_badges.pdf"',
+        ]);
+    
+        return $response;
+        } else {
+            // Si "All" est sélectionné ou aucun type n'est spécifié, récupérer tous les badges
+            $badges = $badgeRepository->findAll();
+            $dompdf = new Dompdf();
+    
+        // Chemin vers votre image
+        $imagePath = $this->getParameter('kernel.project_dir') . '/public/assets/img/logo.png';
+    
+        // Encodez l'image en base64
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+    
+        // Génération du HTML à partir du template Twig 'badge/Badge_pdf.html.twig' en passant la liste des badges et l'image
+        $html = $this->renderView('badge/Badge_pdf.html.twig', [
+            'badges' => $badges,
+            'imagePath' => $imageSrc,
+        ]);
+    
+        // Récupération des options de Dompdf et activation du chargement des ressources à distance
+        $options = $dompdf->getOptions();
+        $options->set([
+            'isHtml5ParserEnabled' => true,
+            'isPhpEnabled' => true,  // Activer le rendu PHP
+        ]);
+    
+        $dompdf->setOptions($options);
+    
+        // Chargement du HTML généré dans Dompdf
+        $dompdf->loadHtml($html);
+    
+        // Configuration du format de la page en A4 en mode portrait
+        $dompdf->setPaper('A4', 'portrait');
+    
+        // Génération du PDF
+        $dompdf->render();
+    
+        // Récupération du contenu du PDF généré
+        $output = $dompdf->output();
+    
+        // Configuration des en-têtes pour le téléchargement du PDF
+        $response = new Response($output, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="liste_badges.pdf"',
+        ]);
+    
+        return $response;
+        }
+    
+        // Création d'une nouvelle instance de la classe Dompdf
+        
+    }
+    
     #[Route('/stats', name: 'badge_stats')]
     public function badgeStats(BadgeRepository $badgeRepository): Response
     {
@@ -136,110 +242,7 @@ class BadgeController extends AbstractController
 
 
 
-    #[Route('/pdf', name: 'pdf', methods: ['GET'])]
-    public function index_pdf(BadgeRepository $badgeRepository, Request $request): Response
-    {
-        // Récupération du type de badge sélectionné à partir de la requête
-        $badgeType = $request->query->get('badgeType');
-    
-        // Vérification si le type de badge est sélectionné
-        if ($badgeType !== null && $badgeType !== 'All') {
-            // Récupération des badges selon le type sélectionné
-            $badges = $badgeRepository->findBy(['typebadge' => $badgeType]);
-            $dompdf = new Dompdf();
-    
-        // Chemin vers votre image
-        $imagePath = $this->getParameter('kernel.project_dir') . '/public/assets/img/logo.png';
-    
-        // Encodez l'image en base64
-        $imageData = base64_encode(file_get_contents($imagePath));
-        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-    
-        // Génération du HTML à partir du template Twig 'badge/Badge_pdf.html.twig' en passant la liste des badges et l'image
-        $html = $this->renderView('badge/' . $badgeType . '_pdf.html.twig', [
-            'badges' => $badges,
-            'imagePath' => $imageSrc,
-        ]);
-    
-        // Récupération des options de Dompdf et activation du chargement des ressources à distance
-        $options = $dompdf->getOptions();
-        $options->set([
-            'isHtml5ParserEnabled' => true,
-            'isPhpEnabled' => true,  // Activer le rendu PHP
-        ]);
-    
-        $dompdf->setOptions($options);
-    
-        // Chargement du HTML généré dans Dompdf
-        $dompdf->loadHtml($html);
-    
-        // Configuration du format de la page en A4 en mode portrait
-        $dompdf->setPaper('A4', 'portrait');
-    
-        // Génération du PDF
-        $dompdf->render();
-    
-        // Récupération du contenu du PDF généré
-        $output = $dompdf->output();
-    
-        // Configuration des en-têtes pour le téléchargement du PDF
-        $response = new Response($output, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="liste_badges.pdf"',
-        ]);
-    
-        return $response;
-        } else {
-            // Si "All" est sélectionné ou aucun type n'est spécifié, récupérer tous les badges
-            $badges = $badgeRepository->findAll();
-            $dompdf = new Dompdf();
-    
-        // Chemin vers votre image
-        $imagePath = $this->getParameter('kernel.project_dir') . '/public/assets/img/logo.png';
-    
-        // Encodez l'image en base64
-        $imageData = base64_encode(file_get_contents($imagePath));
-        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-    
-        // Génération du HTML à partir du template Twig 'badge/Badge_pdf.html.twig' en passant la liste des badges et l'image
-        $html = $this->renderView('badge/Badge_pdf.html.twig', [
-            'badges' => $badges,
-            'imagePath' => $imageSrc,
-        ]);
-    
-        // Récupération des options de Dompdf et activation du chargement des ressources à distance
-        $options = $dompdf->getOptions();
-        $options->set([
-            'isHtml5ParserEnabled' => true,
-            'isPhpEnabled' => true,  // Activer le rendu PHP
-        ]);
-    
-        $dompdf->setOptions($options);
-    
-        // Chargement du HTML généré dans Dompdf
-        $dompdf->loadHtml($html);
-    
-        // Configuration du format de la page en A4 en mode portrait
-        $dompdf->setPaper('A4', 'portrait');
-    
-        // Génération du PDF
-        $dompdf->render();
-    
-        // Récupération du contenu du PDF généré
-        $output = $dompdf->output();
-    
-        // Configuration des en-têtes pour le téléchargement du PDF
-        $response = new Response($output, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="liste_badges.pdf"',
-        ]);
-    
-        return $response;
-        }
-    
-        // Création d'une nouvelle instance de la classe Dompdf
-        
-    }
+ 
 
     #[Route('/search', name: 'app_badge_search', methods: ['GET'])]
     public function search(Request $request, BadgeRepository $badgeRepository): JsonResponse
@@ -335,7 +338,7 @@ class BadgeController extends AbstractController
 
    
     #[Route('/new', name: 'app_badge_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, TwilioService $twilioService): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $badge = new Badge();
         $form = $this->createForm(BadgeType::class, $badge);
@@ -346,11 +349,7 @@ class BadgeController extends AbstractController
             $entityManager->persist($badge);
             $entityManager->flush();
         
-            $to = '+21640994876'; // Static phone number
             
-            $message = 'Le Badge est ajouté avec succès'; // Modify the message as needed
-            $twilioService->sendSMS($to, $message);
-        
             return $this->redirectToRoute('app_badge_index', [], Response::HTTP_SEE_OTHER);
         }
         
@@ -381,7 +380,7 @@ class BadgeController extends AbstractController
     
     
     #[Route('/new66', name: 'app_badge_new66', methods: ['GET', 'POST'])]
-    public function new66(Request $request, EntityManagerInterface $entityManager): Response
+    public function new66(Request $request, EntityManagerInterface $entityManager, TwilioService $twilioService): Response
     {
         $badge = new Badge();
         $form = $this->createForm(BadgeType::class, $badge);
@@ -398,6 +397,11 @@ class BadgeController extends AbstractController
                 $badge->setDatebadge(new \DateTime());
                 $entityManager->persist($badge);
                 $entityManager->flush();
+            //     $to = '+21640994876'; // Static phone number
+            
+            // $message = 'Le Badge est ajouté avec succès'; // Modify the message as needed
+            // $twilioService->sendSMS($to, $message);
+        
                 $this->addFlash('success', 'Le badge a été ajouté avec succès.');
                 return $this->redirectToRoute('app_badge_indexFront');
             } else {
