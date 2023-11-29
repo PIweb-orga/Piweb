@@ -134,7 +134,7 @@ class BadgeController extends AbstractController
         // Création d'une nouvelle instance de la classe Dompdf
         
     }
-    
+
     #[Route('/stats', name: 'badge_stats')]
     public function badgeStats(BadgeRepository $badgeRepository): Response
     {
@@ -397,10 +397,10 @@ class BadgeController extends AbstractController
                 $badge->setDatebadge(new \DateTime());
                 $entityManager->persist($badge);
                 $entityManager->flush();
-            //     $to = '+21640994876'; // Static phone number
+                $to = '+216 20706900'; 
             
-            // $message = 'Le Badge est ajouté avec succès'; // Modify the message as needed
-            // $twilioService->sendSMS($to, $message);
+            $message = 'Le Badge est ajouté avec succès'; 
+            $twilioService->sendSMS($to, $message);
         
                 $this->addFlash('success', 'Le badge a été ajouté avec succès.');
                 return $this->redirectToRoute('app_badge_indexFront');

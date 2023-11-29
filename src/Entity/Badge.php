@@ -143,7 +143,7 @@ class Badge
     }
     public function checkAndDeleteIfRequired(): bool
     {
-        return $this->dislikes - $this->likes >= 5;
+        return $this->dislikes - $this->likes >= 3;
     }
 
 

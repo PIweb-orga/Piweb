@@ -93,7 +93,7 @@ class AvisController extends AbstractController
     
         $email = (new Email())
             ->from('aminfsm2001@gmail.com')
-            ->to('mohamedyemen.khefacha@esprit.tn')
+            ->to('mohamedamin.ltifi@esprit.tn')
             ->subject('Votre avis a atteint plus de 100 vues')
             ->html($htmlContent);
     
