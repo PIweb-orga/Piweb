@@ -1,0 +1,42 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Top 3 des Plats{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ asset('assets/css/cardBrahmi.css') }}">
+
+    <div class="container">
+        <h1 class="mt-5 mb-4">Top 3 des Plats les plus achetés</h1>
+
+
+        <div class="container">
+            <div class="row">  
+                {% for plat in top3Plats %}        
+                <div class="__area text-center ">
+                    <div class="__area text-center">
+                        <a class="__card col-md-4" >
+                            <button class="__favorit"><i class="la la-heart-o"></i></button>
+                            <img src="{{ asset('platimage/' ~ plat.imagePath) }}" style="width: 350px;height: 250px;" class="img-fluid __img"/>
+                            <div class="__card_detail text-left">
+                                <h4>{{ plat.platNom }}</h4>
+                                <p> QUANTITY :{{ plat.totalQuantite }}</p>
+                                <div style="margin-right: 10px;"></div>
+                                <div class="__type">
+                                    <p> PRIX :{{ plat.prix }} DT</p>
+                                </div>
+                       
+                   
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+             
+                    </div>
+                </div>
+    </div>
+
+    {% block iheb %}
+
+    {% endblock %}
+{% endblock %}
