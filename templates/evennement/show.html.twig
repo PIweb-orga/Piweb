@@ -1,9 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'front.html.twig' %}
 
 {% block title %}Evennement{% endblock %}
 
-{% block body %}        
-  <link rel="stylesheet" href="{{ asset('assets/css/tableParticipant.css') }}" />
+
 <div class="fils" style="padding-left: 300px;">
     <h1>Evennement</h1>
 
@@ -45,6 +44,9 @@
     <a href="{{ path('app_evennement_edit', {'idevent': evennement.idevent}) }}">edit</a>
 
     {{ include('evennement/_delete_form.html.twig') }}
+
+    </div>
+=======
    <table>
   <thead>
     <tr>
@@ -72,4 +74,5 @@
     
   </tbody>
 </table>
+
 {% endblock %}

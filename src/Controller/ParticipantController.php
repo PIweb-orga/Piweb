@@ -139,6 +139,26 @@ public function generateExcel(EvennementRepository $evepo): BinaryFileResponse
         ]);
     }
     #[Route('/new22', name: 'app_participant_new22', methods: ['GET', 'POST'])]
+
+    public function new22(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $participant = new Participant();
+        $form = $this->createForm(ParticipantType::class, $participant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+           
+        }
+
+        return $this->renderForm('participant/new22.html.twig', [
+            'participant' => $participant,
+            'form' => $form,
+        ]);
+    }
+
 public function new22(Request $request, EntityManagerInterface $entityManager): Response
 {
     $participant = new Participant();
@@ -206,6 +226,7 @@ public function new222(Request $request, EntityManagerInterface $entityManager, 
         'evennement' => $evennements,
     ]);
 }
+
 
 
     #[Route('/{idparticipant}', name: 'app_participant_show', methods: ['GET'])]
