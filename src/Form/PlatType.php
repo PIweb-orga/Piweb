@@ -49,6 +49,11 @@ class PlatType extends AbstractType
                     ])
                 ]
                     ])
+            ->add('nom')
+            ->add('description')
+           ->add('image', FileType::class, ['mapped' => false])
+            ->add('prix')
+
             ->add('categorie',ChoiceType::class,[
                 'choices'=>[ 
                     'Dessert'=>'Dessert',

@@ -2,7 +2,7 @@
 
 {% block title %}Evennement{% endblock %}
 
-{% block body %}
+
 <div class="fils" style="padding-left: 300px;">
     <h1>Evennement</h1>
 
@@ -44,5 +44,35 @@
     <a href="{{ path('app_evennement_edit', {'idevent': evennement.idevent}) }}">edit</a>
 
     {{ include('evennement/_delete_form.html.twig') }}
+
     </div>
+=======
+   <table>
+  <thead>
+    <tr>
+      <th>User</th>
+ 
+      <th>Num</th>
+           <th>Titre</th>
+    </tr>
+  </thead>
+  <tr>
+                    <td colspan="3">
+                        <h2>Nombre de participants : {{ countParticipants }}</h2>
+                    </td>
+   </tr>
+  <tbody>
+   {% for participant in Listparticipants %}
+     <tr>
+      <td>{{ participant.username }}</td>
+         <td>{{ participant.numero }} </td>
+        <td>    {{ evennement.titre }} </td>
+   
+    </tr>
+        {% endfor %}
+  
+    
+  </tbody>
+</table>
+
 {% endblock %}
