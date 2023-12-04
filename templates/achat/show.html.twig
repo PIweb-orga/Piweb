@@ -3,6 +3,7 @@
 {% block title %}Achat{% endblock %}
 
 {% block body %}
+<div class="fils" style="padding-left: 300px;">
     <h1>Achat</h1>
 
     <table class="table">
@@ -35,4 +36,5 @@
     <a href="{{ path('app_achat_edit', {'idachat': achat.idachat}) }}">edit</a>
 
     {{ include('achat/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

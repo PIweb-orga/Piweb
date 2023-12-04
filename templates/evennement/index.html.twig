@@ -3,9 +3,26 @@
 {% block title %}Evennement index{% endblock %}
 
 {% block body %}
-    <h1>Evennement index</h1>
+    <script>
+        var searchUrl = "{{ path('app_evennement_search_ajax') }}";
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{{ asset('assets/js/Evennementsearch.js') }}"></script> 
 
-    <table class="table">
+    <div class="fils" style="padding-left: 300px;">
+        <!-- Contenu de votre élément -->
+        <h1>Evennement index</h1>
+
+        {# Search Form #}
+        <form method="get" action="{{ path('app_evennement_search_ajax') }}" id="searchEvennementForm" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" placeholder="Search evennements..." value="{{ app.request.query.get('q') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    
+{# Evennements Table #}
+   <table class="table" id="evennementsTable">
         <thead>
             <tr>
                 <th>Idevent</th>
@@ -15,7 +32,7 @@
                 <th>Img</th>
                 <th>Lieu</th>
                 <th>Adresse</th>
-                <th>actions</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -25,12 +42,24 @@
                 <td>{{ evennement.titre }}</td>
                 <td>{{ evennement.description }}</td>
                 <td>{{ evennement.date ? evennement.date|date('Y-m-d') : '' }}</td>
-                <td>{{ evennement.img }}</td>
+              <td>
+                <img src="{{asset('eventimages/' ~ evennement.img)}}" style="height:100px;">
+               
                 <td>{{ evennement.lieu }}</td>
                 <td>{{ evennement.adresse }}</td>
                 <td>
-                    <a href="{{ path('app_evennement_show', {'idevent': evennement.idevent}) }}">show</a>
-                    <a href="{{ path('app_evennement_edit', {'idevent': evennement.idevent}) }}">edit</a>
+
+
+
+                <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_evennement_show', {'idevent': evennement.idevent}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_evennement_edit', {'idevent': evennement.idevent}) }}'">
+    Edit
+</button>
+{{ include('evennement/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -41,5 +70,41 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_evennement_new') }}">Create new</a>
+    <form method="get" action="{{ path('app_evennement_new') }}">
+    <button style="margin-left:20px" type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
+     <div style="width:200px;margin-left:300px">
+      <a  href="{{ path('excel') }}" class="btn btn-primary m-2" style="display:block ; margin-bottom: 2.5em; background-color: #00A8B3;">Générer Excel  <i class="fa fa-table" aria-hidden="true"></i></a>
+     <a href="{{ path('stats') }} " class="btn btn-primary m-2" style="display:block ; margin-bottom: 2.5em;">Statistiques  <i class="fa fa-bar-chart-o" aria-hidden="true"></i></a>
+      
+     </div>
+      {# Evennements Table (Search Results Table) #}
+        <table class="table" id="searchResultsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Idevent</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Img</th>
+                    <th>Lieu</th>
+                    <th>Adresse</th>
+                </tr>
+            </thead>
+            <tbody id="searchResultsTableBody">
+                <!-- This tbody will be populated dynamically via JavaScript -->
+            </tbody>
+        </table>
+
+        {# Refresh Button (only visible if there is a search query) #}
+        {% if app.request.query.get('q') is not empty %}
+            <form method="get" action="{{ path('app_evennement_index') }}">
+                <button type="submit" class="btn btn-success">Refresh</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+     
 {% endblock %}
