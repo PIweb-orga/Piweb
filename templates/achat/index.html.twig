@@ -1,60 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Achat index{% endblock %}
 
-{% block body %}
-
-    <div class="fils" style="padding-left: 300px;">
-        
-        <h1>Achat index</h1>
-        {% for type, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-=======
-<div class="fils" style="padding-left: 300px;">
-    <h1>Achat index</h1>
-
-    <table border="1" class="table">
-        <thead>
-            <tr>
-                <th>Idachat</th>
-                <th>Montanttotal</th>
-                <th>Quantite</th>
-                <th>Date</th>
-                <th>Type</th>
-
-            </tr>
-        </thead>
-        <tbody>
-        {% for achat in achats %}
-            <tr>
-                <td>{{ achat.idachat }}</td>
-                <td>{{ achat.montanttotal }}</td>
-                <td>{{ achat.quantite }}</td>
-                <td>{{ achat.date ? achat.date|date('Y-m-d') : '' }}</td>
-                <td>{{ achat.type }}</td>
-                <td>
-
-
-<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_achat_show', {'idachat': achat.idachat}) }}'">
-    Show
-</button>
-</td>
-<td>
-<button class="btn btn-warning" onclick="window.location.href='{{ path('app_achat_edit', {'idachat': achat.idachat}) }}'">
-    Edit
-</button>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-
-        {% endfor %}
         <form method="get" action="{{ path('app_achat_index_type') }}" class="search-form" id="search-type">
             <label for="type">Type:</label>
             <select name="type">
@@ -117,6 +63,7 @@
    <form method="get" action="{{ path('app_achat_new') }}">
     <button type="submit" class="btn btn-primary">Create new</button>
 </form>
+
 
     </div>
 {% endblock %}

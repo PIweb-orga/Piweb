@@ -77,6 +77,25 @@ class AchatController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new33', name: 'app_achat_new33', methods: ['GET', 'POST'])]
+    public function new33(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $achat = new Achat();
+        $form = $this->createForm(AchatType::class, $achat);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($achat);
+            $entityManager->flush();
+
+          
+        }
+
+        return $this->renderForm('achat/new33.html.twig', [
+            'achat' => $achat,
+            'form' => $form,
+        ]);
+    }
 
     
     #[Route('/stats/plats-par-categorie', name: 'app_stats_plats_par_categorie', methods: ['GET', 'POST'])]

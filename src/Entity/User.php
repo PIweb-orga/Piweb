@@ -1,118 +1,34 @@
 <?php
 
 namespace App\Entity;
-use App\Repository\UserRepository;
-
-use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
-{
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $iduser = null;
-
-    #[ORM\Column(length: 30)]
-    private ?string $username = '';
-
-    #[ORM\Column(length: 300)]
+th: 300)]
     private ?string $email = '';
 
-    #[ORM\Column(length: 300)]
-    private ?string $password = '';
-
-    #[ORM\Column(length: 30)]
-    private ?string $firstname = '';
-
-    #[ORM\Column(length: 30)]
-    private ?string $lastname = '';
-
-    #[ORM\Column(nullable: true, length: 20)]
-    private ?string $tel = '';
-
-    #[ORM\Column(nullable: true, length: 300)]
-    private ?string $address = '';
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private ?string $role = '';
-
-    public function getIduser(): ?int
-    {
-        return $this->iduser;
+    #[ORM\Column(length: 300)]  return (string) $this->username;
     }
 
-    public function getUsername(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        return $this->username;
+        $roles = $this->role;
+        // guarantee every user at least has ROLE_USER
+        
+
+        return array_unique($roles);
     }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): static
-    {
-        $this->firstname = $firstname;
+    public function getRole(): array
+{
+    return $this->role;
+}
 
         return $this;
     }
 
     public function getLastname(): ?string
     {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): static
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getTel(): ?string
-    {
-        return $this->tel;
-    }
-
-    public function setTel(?string $tel): static
-    {
-        $this->tel = $tel;
-
-        return $this;
-    }
+       
 
     public function getAddress(): ?string
     {
@@ -125,16 +41,23 @@ class User
 
         return $this;
     }
+    
 
-    public function getRole(): ?string
+    public function setUsername(string $username): static
     {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
+        $this->username = $username;
 
         return $this;
     }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+
 }

@@ -17,14 +17,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
 
 
-class UserType extends AbstractType
+class UserTypeEdit extends AbstractType
 {
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
+   
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -50,16 +47,7 @@ class UserType extends AbstractType
                     ]
                         ])
         
-        ->add('password', TextType::class, [
-            'attr' => [
-                'placeholder' => 'Password',
-            ],
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Veuillez saisir password. '
-                ])
-            ]
-                ])
+       
         
         ->add('firstname', TextType::class, [
             'attr' => [
@@ -102,12 +90,8 @@ class UserType extends AbstractType
                                 ])
                             ]
                                 ])
-            ->add('password',RepeatedType::class, [
-                'type'=>PasswordType::class,
-                'first_options'=>['label'=>'Password'],
-                'second_options'=>['label'=>'Confirm Password']
-            ])
-            ->add("recaptcha", ReCaptchaType::class)
+            
+        
             ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
 
     }
