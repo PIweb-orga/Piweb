@@ -41,8 +41,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function advancedSearch(string $query): array
 {
     return $this->createQueryBuilder('u')
-         ->andWhere('u.username LIKE :query OR u.email LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query OR u.tel LIKE :query OR u.address LIKE :query OR u.role LIKE :query')
-         ->setParameter('query', '%' . $query . '%')
+        ->andWhere('u.username LIKE :query OR u.email LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query OR u.tel LIKE :query OR u.address LIKE :query OR u.role LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
         ->getQuery()
         ->getResult();
 }
@@ -53,7 +53,43 @@ public function findAllSortedBy(string $criteria): array
         ->getQuery()
         ->getResult();
 }
+public function findBySearchQuery(string $searchQuery): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.username LIKE :query OR u.email LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query OR u.tel LIKE :query OR u.address LIKE :query OR u.role LIKE :query')
+            ->setParameter('query', '%' . $searchQuery . '%')
+            ->getQuery()
+            ->getResult();
+    }
 
+   
+    public function countUsersWithRoleUser(): int
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select('COUNT(u.iduser) as user_count')
+            ->where('u.role LIKE :role')
+            ->setParameter('role', '%ROLE_USER%')
+            ->getQuery();
+
+        return (int)$query->getSingleScalarResult();
+    }
+    public function findReclamationsByString($searchString)
+{
+    return $this->createQueryBuilder('r')
+        ->where('r.username LIKE :search')
+        ->setParameter('search', '%' . $searchString . '%')
+        ->getQuery()
+        ->getResult();
+}
+public function countUsersByEtat(string $etat): int
+{
+    return $this->createQueryBuilder('u')
+        ->select('COUNT(u.iduser)')
+        ->where('u.etat = :etat')
+        ->setParameter('etat', $etat)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

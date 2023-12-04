@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Stmt\Static_;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,9 +47,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true, length: 300)]
     private ?string $address = null;
 
-    #
+    
     #[ORM\Column(length: 180)]
     private ?string $reset_token = null;
+
+    #[ORM\Column(type: "boolean")]
+    #[Groups("users")]
+    private $isBlocked = false;
+
+    #[ORM\Column(type: "boolean")]
+    #[Groups("users")]
+    private $isApproved = false;
+
+    #[ORM\Column(type: 'string', length: 255,nullable: true, options: ['default' => 'Actif'])]
+    #[Groups("users")]
+    private ?string $etat = "Actif";
+
+    #[ORM\Column(type: 'string', length: 255, options: ['default' => 'Actif'])]
+    #[Groups("users")]
+    private ?String $status;
 
     public function getIduser(): ?int
     {
@@ -82,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -111,7 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -211,6 +228,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken($reset_token): void
     {
         $this->reset_token = $reset_token;
+    }
+    public function isIsBlocked(): ?bool
+{
+    return $this->isBlocked;
+}
+
+public function setIsBlocked(?bool $isBlocked): self
+{
+    $this->isBlocked = $isBlocked;
+
+    return $this;
+}
+
+    public function isIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(?bool $isApproved): self
+    {
+        $this->isApproved = $isApproved;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): void
+    {
+        $this->etat = $etat;
+    }
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+    public function getUserDataForQrCode(): string
+    {
+        $data = "Iduser: {$this->iduser}, Username: {$this->username}, Email: {$this->email}, Firstname: {$this->firstname}, Lastname: {$this->lastname}, Tel: {$this->tel}, Address: {$this->address}, Reset Token: {$this->reset_token}, Is Blocked: {$this->isBlocked}, Is Approved: {$this->isApproved}, Etat: {$this->etat}, Status: {$this->status}";
+    
+        return $data;
     }
 
 }
