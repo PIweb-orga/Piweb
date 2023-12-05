@@ -1,0 +1,105 @@
+{% extends 'front.html.twig' %}
+
+{% block content %}
+    <section class="section" id="panier" style="padding-top: 200px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="section-heading">
+                        <h6>Votre Panier</h6>
+                        <h2>Articles dans votre panier</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {% if achats is not empty %}
+                {% if app.session.flashbag.has('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {% for message in app.session.flashbag.get('success') %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Image</th>
+                            <th>Quantité</th>
+                            <th>Prix</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for achat in achats %}
+                            <tr>
+                                <td>{{ achat.plat.nom }}</td>
+                                <td>                        <img src="{{ asset('/platimage/' ~ achat.plat.image) }}" width="50" height="50" class="img-fluid __img"/>
+                                </td>
+                                <td>
+                                    {% if app.request.get('editMode') and app.request.get('achatId') == achat.idachat %}
+                                        <form method="post" action="{{ path('app_update_quantite', {'achatId': achat.idachat}) }}">
+                                            <input type="number" name="newQuantite" value="{{ achat.quantite }}" min="1" required/>
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                        </form>
+                                    {% else %}
+                                        {{ achat.quantite }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ achat.plat.prix }} DT</td>
+                                <td>{{ achat.type }}</td>
+                                <td>
+                                    <a href="{{ path('app_remove_from_panier', {'achatId': achat.idachat}) }}" class="btn btn-danger">Supprimer</a>
+                                    {% if not app.request.get('editMode') or app.request.get('achatId') != achat.idachat %}
+                                        <a href="{{ path('app_view_panier', {'editMode': true, 'achatId': achat.idachat}) }}" class="btn btn-warning">Modifier Quantité</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="text-right">
+                    {% set allSurPlace = true %}
+                    {% set totalMontant = 0 %}
+                    {% set fraisLivraisonAdded = false %}
+                    
+                    {% for achat in achats %}
+                        {% set totalMontant = totalMontant + achat.calculateTotalAmount() %}
+                        {% if achat.type != 'surplace' %}
+                            {% set allSurPlace = false %}
+                        {% endif %}
+                        
+                        {% if achat.type == 'livraison' %}
+                            {% set fraisLivraisonAdded = true %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if allSurPlace %}
+                        <p>Total : {{ totalMontant }} DT</p>
+                    {% else %}
+                        {% set fraisLivraison = fraisLivraisonAdded ? 2.5 : 0 %}
+                        <p>Total : {{ totalMontant + fraisLivraison }} DT{% if fraisLivraisonAdded %} (frais de livraison : 2.5 DT){% endif %}</p>
+                    {% endif %}
+                    
+                    <a href="{{ path('app_generate_panier_pdf') }}" class="btn btn-danger">Valider La Commande </a>
+                </div>
+                
+                
+                
+                
+                
+            {% else %}
+                <p>Votre panier est vide.</p>
+            {% endif %}
+        </div>
+    </section>
+    
+    {% block iheb %}
+
+    {% endblock %}
+{% endblock %}

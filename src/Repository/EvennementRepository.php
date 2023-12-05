@@ -45,4 +45,12 @@ class EvennementRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function advancedSearch(string $query): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.titre LIKE :query OR e.description LIKE :query OR e.lieu LIKE :query OR e.adresse LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

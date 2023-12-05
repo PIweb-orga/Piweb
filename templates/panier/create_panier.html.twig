@@ -1,0 +1,21 @@
+{# templates/create_panier.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Créer un nouveau panier</h2>
+
+    {{ form_start(form) }}
+    
+    {{ form_row(form.quantite) }}
+    {{ form_row(form.prix) }}
+    {{ form_row(form.user) }}
+    {{ form_row(form.plat) }}
+    
+    {# Champ pour afficher le montant total #}
+    {{ form_row(form.montantTotal) }}
+
+    <button type="submit">Créer Panier</button>
+    
+    {{ form_end(form) }}
+{% endblock %}

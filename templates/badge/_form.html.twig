@@ -1,5 +1,6 @@
 {# templates/badge/_form.html.twig #}
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_start(form) }}
 <div class="fils" style="padding-left: 300px;">
 <div class="row">
     <div class="col-md-6">
@@ -13,12 +14,21 @@
 
         
 
+            {{ form_widget(form.commantaire, {'attr': {'class': 'form-control', 'placeholder': 'Commentaire'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.datebadge, 'Date Badge', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.datebadge, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
         <div class="mb-3">
             {{ form_label(form.typebadge, 'Type Badge', {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.typebadge, {'attr': {'class': 'form-select'}}) }}
              <div style="color: #dc3545;">
         {{ form_errors(form.typebadge) }}
     </div>
+
         </div>
     </div>
 

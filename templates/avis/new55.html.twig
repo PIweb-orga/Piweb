@@ -16,3 +16,17 @@
 </div>
 {% endblock %}
 
+{% extends 'front.html.twig' %}
+
+{% block title %}New Avis{% endblock %}
+
+{% block body %}
+    <h1>Create new Avis</h1>
+
+    <section id="nouvelle-avis">
+        {{ include('avis/_form.html.twig') }}
+    </section>
+
+   
+{% endblock %}
+

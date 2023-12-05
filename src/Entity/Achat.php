@@ -25,9 +25,9 @@ class Achat
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\OneToOne(targetEntity: User::class, cascade: ["persist"])]
     #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'iduser')]
-    private ?User $user=null;    
+    private ?User $user = null;
     
     #[ORM\OneToOne(targetEntity: Plat::class)]
     #[ORM\JoinColumn(name: 'idplat', referencedColumnName: 'idplat')]
@@ -135,6 +135,27 @@ class Achat
 
         return $this;
     }
-
+    
+    public function calculateTotalAmount(): ?float
+    {
+        $plat = $this->getPlat();
+    
+        if ($plat) {
+            $quantite = $this->getQuantite();
+    
+            if ($this->getType() === 'livraison') {
+                return ($plat->getPrix() * $quantite) ;
+            } else {
+                return $plat->getPrix() * $quantite;
+            }
+        }
+    
+        return null;
+    }
+    
+    
+    
+   
+    
 
 }

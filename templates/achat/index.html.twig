@@ -1,7 +1,4 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Achat index{% endblock %}
-
 {% block body %}
 <div class="fils" style="padding-left: 300px;">
     <h1>Achat index</h1>
@@ -49,6 +46,71 @@
    <form method="get" action="{{ path('app_achat_new') }}">
     <button type="submit" class="btn btn-primary">Create new</button>
 </form>
+
+
+        <form method="get" action="{{ path('app_achat_index_type') }}" class="search-form" id="search-type">
+            <label for="type">Type:</label>
+            <select name="type">
+                <option value="" disabled hidden {% if not app.request.query.get('type') %}selected{% endif %}>Choisir un type</option>
+                <option value="livraison" {% if app.request.query.get('type') == 'livraison' %}selected{% endif %}>Livraison</option>
+                <option value="surplace" {% if app.request.query.get('type') == 'surplace' %}selected{% endif %}>Sur Place</option>
+                <!-- Ajoutez d'autres options selon vos besoins -->
+            </select>
+            <button type="submit">Rechercher</button>
+        </form>
+        <form method="get" action="{{ path('app_achat_index_date') }}" class="search-form" id="search-date">
+            <label for="date">Date:</label>
+            <input type="date" name="date" value="{{ app.request.query.get('date') }}" />
+            <button type="submit">Rechercher</button>
+        </form>
+        <table border="1" class="table">
+            <thead>
+                <tr>
+                    <th>Idachat</th>
+                    <th>Montanttotal</th>
+                    <th>Quantite</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for achat in achats %}
+                    <tr>
+                        <td>{{ achat.idachat }}</td>
+                        <td>{{ achat.montanttotal }}</td>
+                        <td>{{ achat.quantite }}</td>
+                        <td>{{ achat.date ? achat.date|date('Y-m-d') : '' }}</td>
+                        <td>{{ achat.type }}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_achat_show', {'idachat': achat.idachat}) }}'">
+                                Show
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" onclick="window.location.href='{{ path('app_achat_edit', {'idachat': achat.idachat}) }}'">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            {{ include('achat/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </tab
+        <form method="get" action="{{ path('app_achat_new') }}">
+            <button type="submit" class="btn btn-primary">Create new</button>
+        </form>
+        
+
+   <form method="get" action="{{ path('app_achat_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
 
     </div>
 {% endblock %}

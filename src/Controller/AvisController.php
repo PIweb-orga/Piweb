@@ -277,6 +277,26 @@ class AvisController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new55', name: 'app_avis_new55', methods: ['GET', 'POST'])]
+    public function new55(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avi-> setDateavis (new \DateTime());
+            $entityManager->persist($avi);
+            $entityManager->flush();
+
+           
+        }
+
+        return $this->renderForm('avis/new55.html.twig', [
+            'avi' => $avi,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/front', name: 'app_avis_indexFront', methods: ['GET'])]
     public function indexFront(AvisRepository $avisRepository): Response

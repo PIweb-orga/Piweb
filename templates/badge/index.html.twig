@@ -8,6 +8,9 @@
 		<h1>Badge index</h1>
 		</br></br>
 
+<div class="fils" style="padding-left: 300px;">
+    <h1>Badge index</h1>
+
 		 <div class="input-group no-border">
             <input type="text" value="" class="form-control" placeholder="Search Commentaire..." id="searchCommentaire">
             <input type="date" class="form-control" id="searchDatebadge">
@@ -46,6 +49,14 @@
                     <a class="btn btn-success rounded-pill py-2 px-4" href="{{ path('app_badge_edit', {'id': badge.id}) }}">
                         <i class="bi bi-pencil"></i>
                     </a>
+                                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
+    Edit
+</button>
                 </td>
             </tr>
         {% else %}
@@ -152,3 +163,9 @@
     
 
     {% endblock %}
+   <form method="get" action="{{ path('app_badge_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
+{% endblock %}
