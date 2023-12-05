@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+     <link rel="icon" type="image/png" href="{{ asset('Frontend/assets/images/slide-06.png') }}">   
+      
+{% block title %}
+    <title>Klassy Cafe - Restaurant HTML Template</title>
+    
+{% endblock %}
+<!--
+    
+TemplateMo 558 Klassy Cafe
+
+https://templatemo.com/tm-558-klassy-cafe
+
+-->
+    <!-- Additional CSS Files -->
+    
+{% block stylesheets %} 
+   <link rel="stylesheet" type="text/css" href="{{ asset('Frontend/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('Frontend/assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('Frontend/assets/css/templatemo-klassy-cafe.css') }}">
+    <link rel="stylesheet" href="{{ asset('Frontend/assets/css/owl-carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('Frontend/assets/css/lightbox.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/panier.min.css') }}">
+
+    {# <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> #}
+    
+    
+{% endblock  %}
+    </head>
+    
+    <body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    
+    <!-- ***** Header Area Start ***** -->
+    
+    {% block Header %}
+    <header class="header-area header-sticky" style="align-items: normal;">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-6 offset-6">    
+                    {% block sidebar %}
+                  
+                    <div class="NavigationItems">
+                    <nav class="main-nav offset-6" style="margin-bottom: 30px;">
+                        <ul class="nav" style="flex-wrap: nowrap;">
+                            <li class="scroll-to-section"><a href="{{ path('home_Front') }}" class="active">Home</a></li>
+                            
+                             <li class="submenu">
+                            <a href="javascript:;">Restaurant</a>
+                            <ul>
+                         <li><a href="{{ path('app_restaurant_index_front') }}">Liste des Restaurant</a></li>
+                        <li><a href="{{ path('app_reservation_index') }}">Ajouter Reservation</a></li>
+                        </ul>
+                            </li> 
+
+                            <li><a href="{{ path('app_avis_indexFront') }}" class="page-scroll">Avis</a></li>
+                            <li><a href="{{ path('app_badge_indexFront') }}" class="page-scroll">Badge</a></li>
+                            <li><a href="{{path('app_participant_new22')}}" class="page-scroll">Event</a></li>   
+
+                            <li class="submenu">
+                            <a href="javascript:;">Plat</a>
+                            <ul>
+                             <li><a href="{{ path('app_plat_index') }}" class="page-scroll">Plat</a></li>
+                            <li><a href="{{ path('app_achat_top3') }}" class="page-scroll" style="margin-right: 10px;">TOP3</a></li>
+                             </ul>
+                            </li> 
+                            <li><a href="{{ path('liste_des_favoris') }}" class="page-scroll"><i class="fa fa-heart"></i></a></li>
+                           
+                            <li class="submenu">
+                            <a href="javascript:;">Reclamation</a>
+                            <ul>
+                             <li><a href="{{ path('app_reclamation_new1') }}">Ajouter Reclamation</a></li>
+                            <li><a href="{{ path('mes_reclamations',{'iduser': app.user.iduser}) }}) }}">Consulter Reclamation</a></li>
+                             </ul>
+                            </li> 
+                            <li class="submenu">
+                         {% if app.user is not null %}
+
+                            <a href="javascript:;">{{ app.user.username }}</a>
+                            <ul>
+                         <li><a href="{{ path('app_user_edit44', {'iduser': app.user.iduser}) }}">Profil</a></li>
+                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                        {% endif %} 
+                        </ul>
+                             <div class="Panier">
+                                <div class="text-right">
+                                    <li class="quick-view ">
+                                        <a href="{{ path('app_view_panier') }}" class="page-scroll button">
+                                            <div class="default-btn">
+                                                <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle r="3" cy="12" cx="12"></circle>
+                                                </svg>
+                                                <span>NB Purchase:{{ app.session.get('achat_counter', 0) }}</span>
+                                            </div>
+                                            <div class="hover-btn">
+                                                <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2" stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                                                    <circle r="1" cy="21" cx="9"></circle>
+                                                    <circle r="1" cy="21" cx="20"></circle>
+                                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                                </svg>
+                                                <span>Panier</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                </div>
+                            </div>
+                        </ul>  
+                    </nav>
+                </div>
+                       {% endblock  %} 
+                    
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Banner Area Start ***** -->
+    
+    <!-- ***** Main Banner Area End ***** -->
+
+    <!-- ***** About Area Starts ***** -->
+    
+    <!-- ***** About Area Ends ***** -->
+
+    <!-- ***** Menu Area Starts ***** -->
+    {% block content %}{% endblock %}
+
+    <!-- ***** Menu Area Ends ***** -->
+
+    <!-- ***** Chefs Area Starts ***** -->
+    {% block chef %}
+
+    <section class="section" id="chefs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4 text-center">
+                    <div class="section-heading">
+                        <h6>Our Chefs</h6>
+                        <h2>We offer the best ingredients for you</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="chef-item">
+                        <div class="thumb">
+                            <div class="overlay"></div>
+                            <ul class="social-icons">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                            <img src="{{ asset('Frontend/assets/images/chefs-01.jpg') }}" alt="Chef #1">
+                        </div>
+                        <div class="down-content">
+                            <h4>Randy Walker</h4>
+                            <span>Pastry Chef</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chef-item">
+                        <div class="thumb">
+                            <div class="overlay"></div>
+                            <ul class="social-icons">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                            </ul>
+                        <img src="{{ asset('Frontend/assets/images/chefs-02.jpg') }}" alt="Chef #2">
+                        </div>
+                        <div class="down-content">
+                            <h4>David Martin</h4>
+                            <span>Cookie Chef</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chef-item">
+                        <div class="thumb">
+                            <div class="overlay"></div>
+                            <ul class="social-icons">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google"></i></a></li>
+                            </ul>
+                    <img src="{{ asset('Frontend/assets/images/chefs-03.jpg') }}" alt="Chef #3">
+                        </div>
+                        <div class="down-content">
+                            <h4>Peter Perkson</h4>
+                            <span>Pancake Chef</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    <!-- ***** Chefs Area Ends ***** -->
+{% block body %}
+{% endblock %}
+<section class="section" id="reservation">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 align-self-center">
+                <div class="left-text-content">
+                    <div class="section-heading">
+                        <h2>RestoRatings</h2>
+                        <h6>Contact Us</h6>
+                        <h2>Votre Bien Etre Nous Tient Au Coeur</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="phone">
+                                <i class="fa fa-phone"></i>
+                                <h4>Phone Numbers</h4>
+                                <span><a href="#">90101741</a><br><a href="#">76000000</a></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="message">
+                                <i class="fa fa-envelope"></i>
+                                <h4>Emails</h4>
+                                <span><a href="#">RestoRatings1@Gmail.com</a><br><a href="#">RestoRatings2@Gmail.com</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                         
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ***** Menu Area Starts ***** -->
+    <section class="section" id="offers">
+        {% block iheb %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4 text-center">
+                    <div class="section-heading">
+                        <h6>Klassy Week</h6>
+                        <h2>This Week’s Special Meal Offers</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="tabs">
+                        <div class="col-lg-12">
+                            <div class="heading-tabs">
+                                <div class="row">
+                                    <div class="col-lg-6 offset-lg-3">
+                                        <ul>
+                                         <li><a href='#tabs-1'><img src="{{ asset('Frontend/assets/images/tab-icon-01.png') }}" alt="">Breakfast</a></li>
+                                         <li><a href='#tabs-1'><img src="{{ asset('Frontend/assets/images/tab-icon-02.png') }}" alt="">Breakfast</a></li>
+                                         <li><a href='#tabs-1'><img src="{{ asset('Frontend/assets/images/tab-icon-03.png') }}" alt="">Breakfast</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12">
+                            <section class='tabs-content'>
+                                <article id='tabs-1'>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="left-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                       <img src="{{ asset('Frontend/assets/images/tab-item-01.png') }}" alt="">
+                                                            <h4>Fresh Chicken Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$10.50</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-02.png') }}" alt="">
+                                                            <h4>Orange Juice</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$8.50</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                          <img src="{{ asset('Frontend/assets/images/tab-item-03.png') }}" alt="">
+                                                            <h4>Fruit Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$9.90</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="right-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                         <img src="{{ asset('Frontend/assets/images/tab-item-04.png') }}" alt="">
+                                                            <h4>Eggs Omelette</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$6.50</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-05.png') }}" alt="">
+                                                            <h4>Dollma Pire</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$5.00</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                            <img src="{{ asset('Frontend/assets/images/tab-item-06.png') }}" alt="">
+                                                            <h4>Omelette & Cheese</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$4.10</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>  
+                                <article id='tabs-2'>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="left-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                      <img src="{{ asset('Frontend/assets/images/tab-item-04.png') }}" alt="">
+                                                            <h4>Eggs Omelette</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$14</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                         <img src="{{ asset('Frontend/assets/images/tab-item-05.png') }}" alt="">
+                                                            <h4>Dollma Pire</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$18</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                            <img src="{{ asset('Frontend/assets/images/tab-item-06.png') }}" alt="">
+                                                            <h4>Omelette & Cheese</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$22</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="right-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-01.png') }}" alt="">
+                                                            <h4>Fresh Chicken Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$10</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                        <img src="{{ asset('Frontend/assets/images/tab-item-02.png') }}" alt="">
+                                                            <h4>Orange Juice</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$20</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                            <img src="{{ asset('Frontend/assets/images/tab-item-03.png') }}" alt="">
+                                                            <h4>Fruit Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$30</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>  
+                                <article id='tabs-3'>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="left-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-05.png') }}" alt="">
+                                                            <h4>Eggs Omelette</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$14</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                          <img src="{{ asset('Frontend/assets/images/tab-item-03.png') }}" alt="">
+                                                            <h4>Orange Juice</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$18</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-02.png') }}" alt="">
+                                                            <h4>Fruit Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$10</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="right-list">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-06.png') }}" alt="">
+                                                            <h4>Fresh Chicken Salad</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$8.50</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                            <img src="{{ asset('Frontend/assets/images/tab-item-01.png') }}" alt="">
+                                                            <h4>Dollma Pire</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$9</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-item">
+                                                           <img src="{{ asset('Frontend/assets/images/tab-item-04.png') }}" alt="">
+                                                            <h4>Omelette & Cheese</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.</p>
+                                                            <div class="price">
+                                                                <h6>$11</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>   
+                            </section>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>{% endblock %}
+    </section>
+    <!-- ***** Chefs Area Ends ***** --> 
+    
+    <!-- ***** Footer Start ***** -->
+    
+    {% block footer %}
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-xs-12">
+                    <div class="right-text-content">
+                            <ul class="social-icons">
+                                <li><a href="https://www.facebook.com/profile.php?id=61553993461667"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="https://twitter.com/MohamedAminebrh"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/mohamed-amine-brahmi-b355a5250/"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="https://www.instagram.com/med_amine_brh/"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-xs-12">
+                    <div class="left-text-content">
+                        <p>© Copyright  RestoRatings.
+                        
+                        <br>Innovators 4 SE 1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+{% endblock  %}
+
+{% endblock  %}
+{% block javascript %}
+    <!-- jQuery -->
+ <script src="{{ asset('Frontend/assets/js/jquery-2.1.0.min.js') }}"></script>
+
+    <!-- Bootstrap -->
+ <script src="{{ asset('Frontend/assets/js/popper.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugins -->
+ <script src="{{ asset('Frontend/assets/js/owl-carousel.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/accordions.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/datepicker.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/scrollreveal.min.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/waypoints.min.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/imgfix.min.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/slick.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/lightbox.js') }}"></script>
+<script src="{{ asset('Frontend/assets/js/isotope.js') }}"></script>
+    
+    <!-- Global Init -->
+   <script src="{{ asset('Frontend/assets/js/custom.js') }}"></script>
+    <script>
+
+        $(function() {
+            var selectedClass = "";
+            $("p").click(function(){
+            selectedClass = $(this).attr("data-rel");
+            $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("."+selectedClass).fadeOut();
+            setTimeout(function() {
+              $("."+selectedClass).fadeIn();
+              $("#portfolio").fadeTo(50, 1);
+            }, 500);
+                
+            });
+        });
+
+    </script>
+    
+{% endblock %}
+  </body>
+  
+</html>

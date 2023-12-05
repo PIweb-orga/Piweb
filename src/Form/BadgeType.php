@@ -28,10 +28,10 @@ class BadgeType extends AbstractType
                 'Silver'=>'Silver',
                 'VIP'=>'VIP'
                    ]] )
-                   ->add('user', EntityType::class, [
-                    'class' => 'App\Entity\User',
-                    'choice_label' => 'username',
-                ])
+                //    ->add('user', EntityType::class, [
+                //     'class' => 'App\Entity\User',
+                //     'choice_label' => 'username',
+                // ])
                 ->add('restaurant', EntityType::class, [
                     'class' => 'App\Entity\Restaurant',
                     'choice_label' => 'nom',

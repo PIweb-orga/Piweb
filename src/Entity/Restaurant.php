@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Repository\RestaurantRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,13 +16,25 @@ class Restaurant
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
+   
     #[ORM\Column]
+    
     private ?int $id_restau = null;
 
+     
+     
+    
+   
+   
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    
+   
     private ?string $nom = null;
+
     
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $location = null;
 
   

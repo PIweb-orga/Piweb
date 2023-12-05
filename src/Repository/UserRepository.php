@@ -114,4 +114,8 @@ public function countUsersByEtat(string $etat): int
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function find($idrec, $lockMode = null, $lockVersion = null): ?User
+    {
+        return parent::find($idrec, $lockMode, $lockVersion);
+    }
 }

@@ -10,3 +10,8 @@ framework:
             low: ['email']
         admin_recipients:
             - { email: admin@example.com }
+# framework:
+#   notifier:
+#     chatter_transports:
+#     texter_transports:
+#       twilio_sms: "twilio://ACff42c5eaef492383b0ed316b83d90306:aa0e7714da542dfa3a3fabc4576924b@default?from=+17746435702"

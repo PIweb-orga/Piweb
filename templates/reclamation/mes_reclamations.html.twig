@@ -1,0 +1,67 @@
+{% extends 'front.html.twig' %}
+
+ {% block title %} <title>Show Reclamation </title>{% endblock %}
+
+{% block body %}
+    <h1>Mes Réclamations</h1>
+    </br></br>
+    </br>
+    <style>
+        /* Vos styles CSS ici */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: red; /* Couleur rouge pour les en-têtes */
+            color: white; /* Texte en blanc pour contraster */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+    <section id="nouvelle-mesreclamation">
+        {% if reclamations|length > 0 %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>État</th>
+                        <th>Contenu de la réponse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reclamation in reclamations %}
+                        <tr>
+                            <td>{{ reclamation.user.username }}</td>
+                            <td>{{ reclamation.description }}</td>
+                            <td>{{ reclamation.typerec }}</td>
+                            <td>{{ reclamation.etatrec }}</td>
+                            {% if reclamation.reponses|length > 0 %}
+                                <td>{{ reclamation.reponses[0].contenue }}</td>
+                            {% else %}
+                                <td>Aucune réponse</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune réclamation pour le moment.</p>
+        {% endif %}
+    </section>
+    {% block iheb %}
+
+    {% endblock %}
+{% endblock %}

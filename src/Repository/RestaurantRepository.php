@@ -21,6 +21,21 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurant::class);
     }
 
+////filtre AJAX
+public function findEntitiesByString($str){
+    return $this->getEntityManager()
+        ->createQuery(
+            'SELECT e
+             FROM App\Entity\Restaurant e
+             WHERE e.nom LIKE :str OR e.location LIKE :str'
+        )
+        ->setParameter('str', '%'.$str.'%')
+        ->getResult();
+}
+
+
+
+
 //    /**
 //     * @return Restaurant[] Returns an array of Restaurant objects
 //     */

@@ -5,7 +5,8 @@ namespace App\Repository;
 use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * @extends ServiceEntityRepository<Reservation>
  *
@@ -20,7 +21,23 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
-
+    public function getReservationsPerDay()
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.datereser as date, COUNT(r.idRes) as count')
+            ->groupBy('r.datereser')
+            ->getQuery()
+            ->getResult();
+    }
+    public function getReservationsCountByDay()
+{
+    return $this->createQueryBuilder('r')
+        ->select('COUNT(r.idRes) as reservationsCount', 'r.datereser')
+        ->groupBy('r.datereser')
+        ->getQuery()
+        ->getResult();
+}
+   
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

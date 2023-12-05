@@ -1,0 +1,20 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Badge{% endblock %}
+
+{% block body %}
+
+    <h1>Create new Badge</h1>
+
+   <section id="nouvelle-badge">
+        {{ include('badge/_form.html.twig') }}
+    </section>
+        <div class="fils" style="padding-left: 300px;">
+    <form method="get" action="{{ path('app_badge_indexFront') }}">
+    <button type="submit" class="btn btn-primary">back to list</button>
+</form>
+</div>
+   {% block iheb %}
+
+    {% endblock %}
+{% endblock %}
