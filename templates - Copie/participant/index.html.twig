@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participant index{% endblock %}
+
+{% block body %}
+<div class="fils" style="padding-left: 300px;">
+    <h1>Participant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idparticipant</th>
+                <th>Datepar</th>
+                <th>Numero</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for participant in participants %}
+            <tr>
+                <td>{{ participant.idparticipant }}</td>
+                <td>{{ participant.datepar ? participant.datepar|date('Y-m-d') : '' }}</td>
+                <td>{{ participant.numero }}</td>
+                <td>
+
+                <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_participant_show', {'idparticipant': participant.idparticipant}) }}'">
+    Show
+</button>
+</td>
+<td>
+
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_participant_edit', {'idparticipant': participant.idparticipant}) }}'">
+    Edit
+</button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<form method="get" action="{{ path('app_participant_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
+{% endblock %}

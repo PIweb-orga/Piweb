@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block body %}
+<div class="fils" style="padding-left: 300px;">
+    <h1>Reclamation index</h1>
+
+    <table border="1" class="table">
+        <thead>
+            <tr>
+                <th>Idrec</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Typerec</th>
+                <th>Etatrec</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.idrec }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                <td>{{ reclamation.description }}</td>
+                <td>{{ reclamation.typerec }}</td>
+                <td>{{ reclamation.etatrec }}</td>
+               <td>
+<button class="btn btn-secondary" onclick="window.location.href='{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}'">
+    Show
+</button>
+</td>
+<td>
+<button class="btn btn-warning" onclick="window.location.href='{{ path('app_reclamation_edit', {'idrec': reclamation.idrec}) }}'">
+    Edit
+</button>
+{{ include('reclamation/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   <form method="get" action="{{ path('app_reclamation_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
+{% endblock %}
