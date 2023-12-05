@@ -8,13 +8,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+
 class BadgeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('commantaire')
-            ->add('datebadge')
+            ->add('commantaire', null, [
+                'constraints' => [
+                    new NotBlank(['message' => 'commantaire Avis should not be blank.']),
+                ],
+            ])
+            
             ->add('typebadge',ChoiceType::class,[
                 'choices'=>[ 
                 'Diamant'=>'Diamant',

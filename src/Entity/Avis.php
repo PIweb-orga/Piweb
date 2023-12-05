@@ -6,6 +6,7 @@ namespace App\Entity;
 use App\Repository\AvisRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Form\Assert;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
@@ -16,13 +17,17 @@ class Avis
     private ?int $id = null;
     
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le champ pubavis ne peut pas être vide')]
     private ?string $pubavis = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le champ titreavis ne peut pas être vide')]
+    #[Assert\Length(min: 3, minMessage: 'Le libelle doit comporter au moins {{ limit }} caractères')]
     private ?string $titreavis = null;
 
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'Le champ date ne peut pas être vide')]
     private ?\DateTimeInterface $dateavis = null;   
     
 
@@ -33,9 +38,12 @@ class Avis
 
     #[ORM\ManyToOne(inversedBy: 'avis')]
     #[ORM\JoinColumn(name: 'id_restau', referencedColumnName: 'id_restau')]
+    #[Assert\NotBlank(message: 'Le champ restaurant ne peut pas être vide')]
     private ?Restaurant $restaurant = null;
 
-    
+    #[ORM\Column]
+    private ?int $nbvue = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,5 +113,16 @@ class Avis
         return $this;
     }
 
+    public function getNbVue(): ?int
+    {
+        return $this->nbvue;
+    }
+
+    public function setNbVue(?int $nbvue): self
+    {
+        $this->nbvue = $nbvue;
+
+        return $this;
+    }
 
 }
