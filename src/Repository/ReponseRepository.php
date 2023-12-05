@@ -20,7 +20,29 @@ class ReponseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reponse::class);
     }
-
+    public function save(Reponse $reponse, bool $flush = false): void
+    {
+        $reclamation = $reponse->getReclamation();
+        $reclamation->setEtatrec('resolue');
+    
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($reclamation);
+        $entityManager->persist($reponse);
+    
+        if ($flush) {
+            $entityManager->flush();
+        }
+    }
+    
+    
+        public function remove(Reponse $entity, bool $flush = false): void
+        {
+            $this->getEntityManager()->remove($entity);
+    
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
 //    /**
 //     * @return Reponse[] Returns an array of Reponse objects
 //     */
@@ -45,4 +67,20 @@ class ReponseRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findOneByReclamation(Reclamation $reclamation): ?Reponse
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.reclamation = :reclamation')
+        ->setParameter('reclamation', $reclamation)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+public function countReponses(): int
+{
+    return $this->createQueryBuilder('rr')
+        ->select('COUNT(rr.idrep)')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 }

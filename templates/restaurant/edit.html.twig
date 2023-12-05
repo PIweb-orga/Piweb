@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Edit Restaurant{% endblock %}
 
@@ -10,4 +10,36 @@
     <a href="{{ path('app_restaurant_index') }}">back to list</a>
 
     {{ include('restaurant/_delete_form.html.twig') }}
+{% endblock %} #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant
 {% endblock %}
+
+{% block body %}
+	<div class="fils" style="padding-left: 300px;">
+		<h1>Edit Restaurant</h1>
+		<div class="page-wrapper my-5">
+			<div class="container-fluid" id="container-wrapper">
+				<div class="card p-3">
+					<div class="row">
+						<a class="col-1 text-info" href="{{ path('app_restaurant_index') }}">back</a>
+						<h5 class="col-8 text-gray-800 pl-3">
+							Restaurant
+						</h5>
+
+
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-lg-12">
+						{{ include('restaurant/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+						{{ include('restaurant/_delete_form.html.twig') }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}

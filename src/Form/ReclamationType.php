@@ -8,10 +8,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Component\Validator\Constraints as CustomAssert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+use App\Validator\Constraints\NoBadWords;
 
 class ReclamationType extends AbstractType
 {
@@ -21,6 +23,13 @@ class ReclamationType extends AbstractType
         ->add('date', DateType::class, [
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
+            'constraints' => [
+                new NotBlank(['message' => 'La date est obligatoire']),
+                new Type([
+                    'type' => \DateTimeInterface::class,
+                    'message' => 'Veuillez saisir une date valide',
+                ]),
+            ],
         ])
         ->add('description', TextType::class, [
             'attr' => [
@@ -28,10 +37,12 @@ class ReclamationType extends AbstractType
             ],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Ce '
-                ])
-            ]
-                ])
+                    'message' => 'Veuillez saisir une description. '
+                ]), new NoBadWords([
+                    'message' => 'La description contient des mots inappropriés : "{{ value }}"',
+                ]),
+            ],
+        ])
             ->add('typerec',ChoiceType::class,[
                 'choices'=>[ 
                 'facturation'=>'facturation',
@@ -41,10 +52,8 @@ class ReclamationType extends AbstractType
                    'placeholder' => 'Séléctionner type',
                    'constraints' => [
                        new NotBlank([
-                           'message' => 'Ce champ est obligatoire'
-                       ]), new CustomAssert\ValidType([
-                        'message' => 'Le type doit être facturation, qualite_nourriture ou service'
-                    ])
+                           'message' => 'Veuiller choisir le type'
+                       ])
 
                    ]] )
             ->add('etatrec',ChoiceType::class,[
@@ -56,7 +65,7 @@ class ReclamationType extends AbstractType
                    'placeholder' => 'Séléctionner type',
                    'constraints' => [
                        new NotBlank([
-                           'message' => 'Ce champ est obligatoire'
+                           'message' => 'Veuiller choisir l etat'
                        ])
                    ]] )
             ->add('user', EntityType::class, [

@@ -1,0 +1,76 @@
+{% extends 'front.html.twig' %}
+
+
+ {% block title %} <title>Favoris Plats </title>{% endblock %}
+
+{% block body %}
+    <h1 class="mt-5 mb-4">Liste des Favoris</h1>
+    <link rel="stylesheet" href="{{ asset('assets/css/cardBrahmi.css') }}">
+
+    {% if favoris is empty %}
+        <p>Aucun plat dans les favoris.</p>
+    {% else %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %} 
+
+    
+    <div class="container">
+        <div class="row">  
+            {% for plat in favoris %}        
+            <div class="__area text-center ">
+                <div class="__area text-center">
+                    <a class="__card col-md-4" >
+                        <button class="__favorit"><i class="la la-heart-o"></i></button>
+                        <img src="{{ asset('platimage/' ~ plat.image) }}" style="width: 350px;height: 250px;" class="img-fluid __img"/>
+                        <div class="__card_detail text-left">
+                            <h4>{{ plat.nom }}</h4>
+                            <p>{{ plat.description }}</p>
+                            <div style="margin-right: 10px;"></div>
+                            <div class="__type">
+                                <form method="post" action="{{ path('app_achat_new') }}" style="display: flex; flex-wrap: wrap;" onsubmit="showAlert()">
+                                    <div style="margin-right: 10px;">
+                                        <label for="quantite">Quantité:</label>
+                                        <input type="number" name="quantite" value="1" min="1" required/>
+                                    </div>
+
+                                    <div style="margin-right: 10px;">
+                                        <label for="type">Type:</label>
+                                        <select name="type">
+                                            <option value="surplace">Surplace</option>
+                                            <option value="livraison">Livraison</option>
+                                        </select>
+                                    </div>
+
+                                    <div style="margin-right: 10px;">
+                                        <input type="hidden" name="idplat" value="{{ plat.idplat }}"/>
+                                        <button type="submit">Ajouter</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="__detail">
+                                <i class="la la-star-o"></i> <span style="color: brown;">{{ plat.prix }} </span> <i class="la la-clock-o"></i>
+                                <span style="color: brown;">DT</span>
+                            </div>
+               
+                        </div>
+                    </a>
+                    <form method="post" action="{{ path('supprimer_favoris', {'platId': plat.idplat}) }}" >
+                        <button type="submit" class="btn btn-danger">Supprimer des favoris</button>
+                    </form>
+                                       
+                    
+                </div>
+                </div>
+            {% endfor %}
+         
+                </div>
+            </div>
+    {% endif %}
+    
+    {% block iheb %}
+
+    {% endblock %}
+{% endblock %}

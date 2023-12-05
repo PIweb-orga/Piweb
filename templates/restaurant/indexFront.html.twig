@@ -1,0 +1,66 @@
+{% extends 'front.html.twig' %}
+
+
+ {% block title %} <title>Restaurant  </title>{% endblock %}
+
+{% block body %}
+	<div class="fils" style="padding-left: 300px;">
+		<h1>Restaurant index</h1>
+		<div class="page-wrapper my-5">
+			<div class="container-fluid" id="container-wrapper">
+				{# <div class="card p-3"> #}
+					<div class="row">
+						<h5 class="col-7 text-gray-800 pl-3">Restaurant</h5>
+
+						
+					{# </div> #}
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="table-responsive p-3">
+								<div id="geniustable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+									<div class="row ">
+										<div class="col-10"></div>
+
+
+										
+
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<table id="geniustable" class="table table-hover dt-responsive dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" aria-describedby="geniustable_info" style="width: 100%;">
+
+												<thead>
+													<tr>
+														<th>Nom</th>
+														<th>Location</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for restaurant in restaurants %}
+														<tr>
+															<td>{{ restaurant.nom }}</td>
+															<td>{{ restaurant.location }}</td>
+														</tr>
+													{% else %}
+														<tr>
+															<td colspan="4">no records found</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

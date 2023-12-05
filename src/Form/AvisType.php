@@ -30,10 +30,10 @@ class AvisType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('user', EntityType::class, [
-                'class' => 'App\Entity\User',
-                'choice_label' => 'username',
-            ])
+            // ->add('user', EntityType::class, [
+            //     'class' => 'App\Entity\User',
+            //     'choice_label' => 'username',
+            // ])
             ->add('restaurant', EntityType::class, [
                 'class' => 'App\Entity\Restaurant',
                 'choice_label' => 'nom',

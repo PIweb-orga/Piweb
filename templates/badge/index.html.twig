@@ -1,50 +1,154 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Badge index{% endblock %}
+{% block title %}Badge index
+{% endblock %}
 
 {% block body %}
-<div class="fils" style="padding-left: 300px;">
-    <h1>Badge index</h1>
+	<div class="fils" style="padding-left: 300px;">
+		<h1>Badge index</h1>
+		</br></br>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Commantaire</th>
-                <th>Datebadge</th>
-                <th>Typebadge</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+		 <div class="input-group no-border">
+            <input type="text" value="" class="form-control" placeholder="Search Commentaire..." id="searchCommentaire">
+            <input type="date" class="form-control" id="searchDatebadge">
+            <input type="text" value="" class="form-control" placeholder="Search Typebadge..." id="searchTypebadge">
+            <button type="submit" class="btn btn-default btn-round btn-just-icon">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+
+
+		
+		<table class="table table-bordered table-striped mb-0">
+    <thead>
+        <tr>
+            <th>Commentaire</th>
+            <th>Datebadge</th>
+            <th>Typebadge</th>
+        </tr>
+    </thead>
+    <tbody id="badgeTableBody">
         {% for badge in badges %}
             <tr>
-                <td>{{ badge.id }}</td>
                 <td>{{ badge.commantaire }}</td>
                 <td>{{ badge.datebadge ? badge.datebadge|date('Y-m-d') : '' }}</td>
                 <td>{{ badge.typebadge }}</td>
                 <td>
-                                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_badge_show', {'id': badge.id}) }}'">
-    Show
-</button>
-</td>
-<td>
-                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_badge_edit', {'id': badge.id}) }}'">
-    Edit
-</button>
+                   
+
+
+                    <a class="btn btn-square btn-secondary rounded-circle m-1" href="{{ path('app_badge_generate_qr', {'id': badge.id}) }}">
+                        <i class="bi bi-upc-scan"></i>
+                    </a>
+                    <a href="{{ path('app_badge_show', {'id': badge.id}) }}" class="btn btn-success rounded-pill py-2 px-4">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-success rounded-pill py-2 px-4" href="{{ path('app_badge_edit', {'id': badge.id}) }}">
+                        <i class="bi bi-pencil"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}
+            <!-- No Records Found -->
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="4">No records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-   <form method="get" action="{{ path('app_badge_new') }}">
-    <button type="submit" class="btn btn-primary">Create new</button>
+<form action="{{ path('pdf') }}" method="GET">
+    <label for="badgeType">Sélectionnez le type de badge :</label>
+    <select id="badgeType" name="badgeType" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option value="Silver">Silver</option>
+        <option value="VIP">VIP</option>
+        <option value="Diamant">Diamant</option>
+		<option value="All">All</option>
+
+    </select>
+     <button type="submit" class="btn btn-primary" >
+    <iconify-icon icon="bi:file-pdf" style="color: red;"></iconify-icon> Télécharger PDF
+</button>
+
 </form>
+ 
 
-    </div>
-{% endblock %}
+</br>
+
+<!-- badge/index.html.twig -->
+<div class="pagination">{{ knp_pagination_render(badges) }}</div>
+<a href="{{ path('app_badge_new') }}" class="btn btn-primary"><i class="bi bi-plus"></i>Ajouter</a></div>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+}
+
+.pagination li {
+	margin: 0 5px;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: row;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+
+.button-container button {
+	margin-right: 10px; /* Espacement entre les boutons */
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border: 1px solid #3498db; /* Bleu */
+	border-radius: 3px;
+	color: #3498db; /* Bleu */
+}
+
+.pagination a:hover {
+	background-color: #3498db; /* Bleu au survol */
+	color: #fff; /* Texte blanc au survol */
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".form-control").on("keyup", function () {
+                var commentaire = $("#searchCommentaire").val().toLowerCase();
+                var typebadge = $("#searchTypebadge").val().toLowerCase();
+
+                $("#badgeTableBody tr").each(function () {
+                    var rowCommentaire = $(this).find('td:eq(0)').text().toLowerCase();
+                    var rowTypebadge = $(this).find('td:eq(2)').text().toLowerCase();
+
+                    var commentaireMatch = rowCommentaire.indexOf(commentaire) > -1;
+                    var typebadgeMatch = rowTypebadge.indexOf(typebadge) > -1;
+
+                    $(this).toggle(commentaireMatch && typebadgeMatch);
+                });
+            });
+
+            $("#searchDatebadge").on("change", function () {
+                searchColumn(1, $(this).val());
+            });
+
+            function searchColumn(columnIndex, value) {
+                var searchDate = value.toLowerCase();
+                $("#badgeTableBody tr").each(function () {
+                    var rowDate = $(this).find('td:eq(' + columnIndex + ')').text().toLowerCase();
+                    var dateMatch = rowDate.indexOf(searchDate) > -1;
+                    $(this).toggle(dateMatch);
+                });
+            }
+        });
+    </script>
+    
+    
+
+    {% endblock %}

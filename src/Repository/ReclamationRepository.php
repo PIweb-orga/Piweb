@@ -21,6 +21,7 @@ class ReclamationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reclamation::class);
     }
 
+   
 //    /**
 //     * @return Reclamation[] Returns an array of Reclamation objects
 //     */
@@ -45,4 +46,118 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findAll(): array
+{
+    return $this->createQueryBuilder('r')
+        ->getQuery()
+        ->getResult();
+}
+public function paginationQuerry()
+{
+    return $this->createQueryBuilder('r')
+        ->orderBy('r.idrec','ASC')
+        ->getQuery()
+       ;
+        
+}
+public function save(Reclamation $entity, bool $flush = false): void
+{
+    $this->getEntityManager()->persist($entity);
+
+    if ($flush) {
+        $this->getEntityManager()->flush();
+    }
+}
+public function remove(Reclamation $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+    public function findByType($type)
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.typerec LIKE :type')
+        ->setParameter('type', '%'.$type.'%')
+        ->getQuery()
+        ->getResult();
+}
+    public function findAllEtatrec()
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.etatrec')
+            ->distinct(true);
+
+        $query = $qb->getQuery();
+
+        $result = $query->getResult();
+
+        $etatrecs = [];
+        foreach ($result as $row) {
+            $etatrecs[] = $row['etatrec'];
+        }
+
+        return $etatrecs;
+    }
+    public function findByEtatrec($etatrec)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.etatrec = :etatrec')
+            ->setParameter('etatrec', $etatrec)
+            ->getQuery()
+            ->getResult();
+    }
+    public function countReclamations(): int
+{
+    return $this->createQueryBuilder('r')
+        ->select('COUNT(r.idrec)')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+public function countReclamationsen_attente(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.idrec)')
+            ->andWhere('r.etatrec = :etatrec')
+            ->setParameter('etatrec', 'en_attente')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countReclamationsresolue(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.idrec)')
+            ->andWhere('r.etatrec = :etatrec')
+            ->setParameter('etatrec', 'resolue')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function findByDate(string $order = 'DESC')
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->orderBy('r.date', $order);
+    
+        return $qb->getQuery()->getResult();
+    }
+
+
+
+
+
+
+
+
+    
+    
+
+public function findByUsername(string $username): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.username = :username')
+        ->setParameter('username', $username)
+        ->getQuery()
+        ->getResult();
+}
 }

@@ -27,10 +27,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_badge_index') }}">back to list</a>
+   
 
-    <a href="{{ path('app_badge_edit', {'id': badge.id}) }}">edit</a>
+    <a href="{{ path('app_badge_indexFront') }}" class="btn btn-outline-dark">Return</a>
 
-    {{ include('badge/_delete_form.html.twig') }}
+    
+
+    {{ include('badge/_delete_formFront.html.twig') }}
     </div>
 {% endblock %}

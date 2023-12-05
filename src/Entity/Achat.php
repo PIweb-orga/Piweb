@@ -136,5 +136,20 @@ class Achat
         return $this;
     }
 
-
+    public function calculateTotalAmount(): ?float
+    {
+        $plat = $this->getPlat();
+    
+        if ($plat) {
+            $quantite = $this->getQuantite();
+    
+            if ($this->getType() === 'livraison') {
+                return ($plat->getPrix() * $quantite) ;
+            } else {
+                return $plat->getPrix() * $quantite;
+            }
+        }
+    
+        return null;
+    }
 }

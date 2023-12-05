@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
 class ValidType extends Constraint
 {
 
-        public $message = 'Le type doit être facturation, qualite_nourriture ou service.';
+        public $message = 'L etat doit être en_attente ou en_cours.';
 
 
     public function validatedBy()
