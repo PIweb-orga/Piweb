@@ -1,0 +1,67 @@
+{% extends 'front.html.twig' %}
+
+ {% block title %} <title>Home </title>{% endblock %}
+{% block body %}
+<div id="top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="left-content">
+                    <div class="inner-content">
+                        <h4>RestoRatings</h4>
+                        <h6>THE BEST EXPERIENCE</h6>
+                       <div class="main-white-button scroll-to-section">
+                            <a href="{{ path('app_login') }}">Sign In</a>
+                        </div>
+                        <div class="main-white-button scroll-to-section">
+                            <a href="{{ path('registration') }}">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="main-banner header-text">
+                    <div class="Modern-Slider">
+                        <div class="item">
+                            <div class="img-fill">
+                                <img src="{{ asset('Frontend/assets/images/slide-01.jpg') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="img-fill">
+                                <img src="{{ asset('Frontend/assets/images/slide-02.jpg') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="img-fill">
+                                <img src="{{ asset('Frontend/assets/images/slide-03.jpg') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block chef %}
+
+{% endblock %}
+
+{% block iheb %}
+
+{% endblock %}
+
+{% block reservation %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-lg-6 offset-lg-6"> 
+            <div class="text-center">
+                <a href="" class="btn btn-primary">Sign In</a>
+                <a href="" class="btn btn-success">Sign Up</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

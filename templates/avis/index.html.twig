@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block body %}
+    <div class="fils" style="padding-left: 300px;">
+        </br></br></br>
+
+        <h1>Avis index</h1>
+        {% include 'avis/flash_messages.html.twig' %}
+        <form method="get" action="{{ path('app_avis_index') }}">
+            <input type="text" name="restaurant" placeholder="Nom du restaurant" id="searchRestaurant">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" id="searchUsername">
+            <input type="date" name="date" id="searchDate">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Title</th>
+                        <th>Restaurant</th>
+                        <th>Publication</th>
+                        <th>Date</th>
+                        <th>
+    <a href="{{ path('app_avis_index', {'restaurant': '', 'username': '', 'date': '', 'sort': 'restaurant'}) }}">
+        Restaurant
+    </a>
+</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    {% for avi in av %}
+                        <tr>
+                            <td>{{ avi.user.username }}</td>
+                            <td>{{ avi.titreavis }}</td>
+                            <td>{{ avi.restaurant.nom }}</td>
+                            <td>{{ avi.pubavis }}</td>
+                            <td>{{ avi.dateavis ? avi.dateavis|date('Y-m-d') : '' }}</td>
+                            <td>
+                                <div class="button-container">
+                                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-success rounded-pill py-2 px-4">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    {{ include('avis/_delete_form.html.twig') }}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            {{ knp_pagination_render(av) }}
+        </div>
+        <a href="{{ path('download_excel_avis') }}" class="btn btn-primary">
+            <i class="fas fa-download"></i>
+            Télécharger le fichier Excel
+        </a>
+    </div>
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+	<style>
+		/* Vos styles CSS restent les mêmes comme vous les avez définis pour les badges */
+		/* Style pour le champ de date */
+		input[type="date"] {
+			padding: 0.5rem; /* Ajoute un peu d'espace autour du champ */
+			border: 1px solid #ccc; /* Ajoute une bordure */
+			border-radius: 4px; /* Arrondit les coins */
+			font-size: 1rem; /* Taille de police */
+			/* Ajoutez d'autres styles selon vos préférences */
+		}
+
+		/* Pour changer le style du sélecteur de date (si nécessaire) */
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			;
+			/* Styles spécifiques pour les navigateurs WebKit (comme Chrome) */
+			/* Vous pouvez personnaliser l'apparence de l'icône du calendrier ici */
+		}
+
+		/* Pour cibler le champ de recherche */
+		.form-outline input[type="search"] {
+			;
+			/* Ajoutez vos styles pour le champ de recherche ici */
+		}
+
+		/* Styles pour le bouton de recherche */
+		#search-button {
+			;
+			/* Ajoutez vos styles pour le bouton de recherche ici */
+		}
+
+
+		        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+       .button-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; 
+    white-space: nowrap;
+}
+
+
+.button-container button {
+    margin-right: 10px; /* Espacement entre les boutons */
+}
+
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #3498db; /* Bleu */
+            border-radius: 3px;
+            color: #3498db; /* Bleu */
+        }
+
+        .pagination a:hover {
+            background-color: #3498db; /* Bleu au survol */
+            color: #fff; /* Texte blanc au survol */
+        }
+	</style>
+	   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#searchRestaurant, #searchUsername, #searchDate").on("keyup change", function() {
+                var restaurant = $("#searchRestaurant").val().toLowerCase();
+                var username = $("#searchUsername").val().toLowerCase();
+                var date = $("#searchDate").val().toLowerCase();
+
+                $("tbody tr").each(function() {
+                    var rowRestaurant = $(this).find('td:eq(2)').text().toLowerCase();
+                    var rowUsername = $(this).find('td:eq(0)').text().toLowerCase();
+                    var rowDate = $(this).find('td:eq(4)').text().toLowerCase();
+
+                    var restaurantMatch = rowRestaurant.includes(restaurant);
+                    var usernameMatch = rowUsername.includes(username);
+                    var dateMatch = rowDate.includes(date);
+
+                    $(this).toggle(
+                        (restaurant === '' || restaurantMatch) &&
+                        (username === '' || usernameMatch) &&
+                        (date === '' || dateMatch)
+                    );
+                });
+            });
+        });
+    </script>
+{% endblock %}

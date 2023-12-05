@@ -8,8 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 class ParticipantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -19,16 +18,7 @@ class ParticipantType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ])
-            ->add('numero', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Numero',
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir le numero. '
-                    ])
-                ]
-                    ])
+            ->add('numero')
             ->add('event', EntityType::class, [
                 'class' => 'App\Entity\Evennement', // Replace with the actual entity class name
                 'choice_label' => 'titre', // Display the 'titre' property of the 'Evennement' entity

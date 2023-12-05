@@ -1,0 +1,53 @@
+{% extends 'front.html.twig' %}
+
+ {% block title %} <title>Reservation  </title>{% endblock %}
+
+{% block body %}
+
+<div class="fils" style="padding-left: 300px;">
+    <h1>Reservation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                 <th>IdRes</th>
+                <th>Date Reservation</th>
+                <th>Time Reservation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+                                           {% if app.user.iduser == reservation.user.getIduser() %}
+
+            <tr>
+                   <td>{{ reservation.idRes }}</td>
+                <td>{{ reservation.datereser ? reservation.datereser|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.timereser ? reservation.timereser|date('H:i:s') : '' }}</td>
+                <td>
+                    
+                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_reservation_show', {'idRes': reservation.idRes}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_reservation_edit', {'idRes': reservation.idRes}) }}'">
+    Edit
+</button>
+                </td>
+            </tr>
+                                                    {% endif %}
+
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<form method="get" action="{{ path('app_reservation_new') }}">
+    <button type="submit" class="btn btn-primary">Create new</button>
+</form>
+
+    </div>
+    {% endblock %}

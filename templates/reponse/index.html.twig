@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reponse index{% endblock %}
+
+{% block body %}
+<div class="fils" style="padding-left: 300px;">
+
+    <h1>Reponse index</h1>
+
+    <table border="1" class="table">
+        <thead>
+            <tr>
+                <th>Idrep</th>
+                <th>Contenue</th>
+                <th>Daterep</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reponse in reponses %}
+            <tr>
+                <td>{{ reponse.idrep }}</td>
+                <td>{{ reponse.contenue }}</td>
+                <td>{{ reponse.daterep ? reponse.daterep|date('Y-m-d') : '' }}</td>
+                <td>
+
+                    <button class="btn btn-secondary" onclick="window.location.href='{{ path('app_reponse_show', {'idrep': reponse.idrep}) }}'">
+    Show
+</button>
+</td>
+<td>
+                  <button class="btn btn-warning" onclick="window.location.href='{{ path('app_reponse_edit', {'idrep': reponse.idrep}) }}'">
+    Edit
+</button>
+{{ include('reponse/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+      </div>
+{% endblock %}
+ 

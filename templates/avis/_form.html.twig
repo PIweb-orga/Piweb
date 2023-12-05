@@ -1,0 +1,43 @@
+{# templates/avis/_form.html.twig #}
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.pubavis, 'Publication Avis', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.pubavis, {'attr': {'class': 'form-control' ~ (form.pubavis.vars.errors|length > 0 ? 'is-invalid' : ''), 'placeholder': 'Publication Avis'}}) }}
+         <div style="color: #dc3545;">
+        {{ form_errors(form.pubavis) }}
+    </div>
+        </div>
+
+<div class="mb-3">
+    {{ form_label(form.titreavis, 'Titre Avis', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.titreavis, {'attr': {'class': 'form-control ' ~ (form.titreavis.vars.errors|length > 0 ? 'is-invalid' : ''), 'placeholder': 'Titre Avis'}}) }}
+    <div style="color: #dc3545;">
+        {{ form_errors(form.titreavis) }}
+    </div>
+</div>
+
+
+    </div>
+
+    {# <div class="col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.user, 'User', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
+        </div> #}
+
+        <div class="mb-3">
+            {{ form_label(form.restaurant, 'Restaurant', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.restaurant, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+
+{{ form_end(form) }}

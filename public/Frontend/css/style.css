@@ -556,7 +556,7 @@ ul {
 
 #quote-carousel .carousel-control {
   background: none;
-  color: #9bf708;
+  color: #CACACA;
   font-size: 2.3em;
   text-shadow: none;
   margin-top: 30px; }
@@ -568,14 +568,14 @@ ul {
   right: -60px; }
 
 #quote-carousel .carousel-indicators {
-  right: 0%;
+  right: 50%;
   top: auto;
   bottom: 0px;
   margin-right: -19px; }
 
 #quote-carousel .carousel-indicators li {
-  width: 330px;
-  height: 370px;
+  width: 70px;
+  height: 70px;
   margin: 0px;
   cursor: pointer;
   opacity: 0.4;
@@ -608,7 +608,7 @@ ul {
 
 .carousel-arrow .angel-bottom-right:before,
 .carousel-arrow .angel-bottom-left:before {
-  color: #ffffff; }
+  color: #fff; }
 
 .angel-bottom-left:before {
   left: 35%; }
@@ -985,7 +985,7 @@ accordion-service {
 .accordion-images .top-image {
   position: absolute;
   top: -220px;
-  width: 99%;
+  width: 70%;
   left: 0;
   right: 0;
   margin: auto;
@@ -1028,7 +1028,7 @@ accordion-service {
   .service-inner .image {
     position: relative; }
   .service-inner .content {
-    position:static;
+    position: absolute;
     left: 0;
     right: 0;
     text-align: center;
