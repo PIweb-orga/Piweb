@@ -45,4 +45,87 @@ class BadgeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function getBadgeCountsByType(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.typebadge AS typebadge, COUNT(b.id) AS badgeCount')
+            ->groupBy('b.typebadge')
+            ->getQuery()
+            ->getResult();
+    }
+
+  
+    public function findByType(string $badgeType): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.typebadge = :type')
+            ->setParameter('type', $badgeType)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findBadgeByRestaurantAndType(string $restaurantName, string $badgeType): ?Badge
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.restaurant = :restaurant')
+            ->andWhere('b.typebadge = :badgeType')
+            ->setParameter('restaurant', $restaurantName)
+            ->setParameter('badgeType', $badgeType)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+  // BadgeRepository.php
+
+// public function countBadgesByType(): array
+// {
+//     return $this->createQueryBuilder('b')
+//         ->select('b.typebadge as type, COUNT(b.id) as count')
+//         ->groupBy('b.typebadge')
+//         ->getQuery()
+//         ->getResult();
+// }
+public function getNbDiamant() {
+ 
+    return $this->createQueryBuilder('m')
+
+    ->select('COUNT(m.id)')
+    ->where('m.type = :type')
+    ->setParameter('type', 'Diamant')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+}
+public function getNbSilver() {
+ 
+    return $this->createQueryBuilder('m')
+
+    ->select('COUNT(m.id)')
+    ->where('m.type = :type')
+    ->setParameter('type', 'Silver')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+}
+public function getNbVIP() {
+ 
+    return $this->createQueryBuilder('m')
+
+    ->select('COUNT(m.id)')
+    ->where('m.type = :type')
+    ->setParameter('type', 'VIP')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+}
+
+    public function countBadgesByType(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.typebadge, COUNT(b.id) as count')
+            ->groupBy('b.typebadge')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

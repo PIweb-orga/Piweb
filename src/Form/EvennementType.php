@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Evennement;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -19,7 +20,7 @@ class EvennementType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ])
-            ->add('img')
+            ->add('img', FileType::class, ['mapped' => false])
             ->add('lieu')
             ->add('adresse')
         ;

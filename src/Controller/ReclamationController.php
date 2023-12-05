@@ -41,6 +41,26 @@ class ReclamationController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new1', name: 'app_reclamation_new1', methods: ['GET', 'POST'])]
+    public function new1(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $reclamation = new Reclamation();
+        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($reclamation);
+            $entityManager->flush();
+
+            
+        }
+
+        return $this->renderForm('reclamation/new1.html.twig', [
+            'reclamation' => $reclamation,
+            'form' => $form,
+        ]);
+    }
+   
 
     #[Route('/{idrec}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response

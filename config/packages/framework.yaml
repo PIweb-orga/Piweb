@@ -22,3 +22,8 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+
+
+    messenger:
+        default_bus: messenger.bus.default
+        # Autres configurations de messagerie
